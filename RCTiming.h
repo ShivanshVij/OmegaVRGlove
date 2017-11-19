@@ -8,8 +8,8 @@
 
 /*----------------------------------- INPUT = 0 -------------------------------- OUTPUT = 1 -----------------------------------*/
 
-struct hand{
-    int HAND;
+struct HAND{
+    int hand;
     FINGER *finger;
 };
 
@@ -23,7 +23,7 @@ class RCTIMING {
 
     public:
         static long readvalue(FINGER& finger);
-        void exitprotocol(FINGER& finger);
+        void exitprotocol(&HAND hand);
     private:
         bool errorcheck(FINGER& finger);
         int setpin(FINGER& finger, int direction);
@@ -32,8 +32,12 @@ class RCTIMING {
         
 };
 
-void exitprotocol(FINGER& finger){
-    gpio_free(finger.GPIOPIN);
+// RCTIMING::readvalue(hand.finger[0])
+
+void exitprotocol(&HAND hand){
+    for(int i = 0; i < 5; i++){
+        gpio_free(hand.finger[i].GPIOPIN);
+    }
 }
 
 bool errorcheck(FINGER& finger){
@@ -66,7 +70,7 @@ int setpin(FINGER& finger, int direction, int value = 0){
     else if(direction == 1){
         if(value == 0 || value == 1){
             gpio_direction_output(finger.GPIOPIN, value);
-            return 1;
+            return value;
         }
         else{
             return -1
@@ -82,7 +86,14 @@ int readpin(FINGER& finger){
 }
 
 int writepin(FINGER& finger, int value){
-    ugpio_set_value(finger.GPIOPIN value);
+    if(value == 0 || value == 1){
+        ugpio_set_value(finger.GPIOPIN, value);
+        return value;
+    }
+    else{
+        return -1;
+    }
+    
 }
 
 
