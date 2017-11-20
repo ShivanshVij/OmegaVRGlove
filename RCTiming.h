@@ -6,12 +6,9 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-/*----------------------------------- INPUT = 0 -------------------------------- OUTPUT = 1 -----------------------------------*/
+using namespace std;
 
-struct HAND{
-    int hand;
-    FINGER *finger;
-};
+/*----------------------------------- INPUT = 0 -------------------------------- OUTPUT = 1 -----------------------------------*/
 
 struct FINGER {
     int GPIOPIN;
@@ -19,33 +16,40 @@ struct FINGER {
     int VALUE;
 };
 
-class RCTIMING {
+struct HAND{
+    int hand;
+    FINGER* finger;
+};
 
+
+extern int buffer = 0;
+
+class RCTIMING {
     public:
         static long readvalue(FINGER& finger);
-        void exitprotocol(&HAND hand);
+        static void exitprotocol(HAND& hand);
     private:
-        bool errorcheck(FINGER& finger);
-        int setpin(FINGER& finger, int direction);
-        int writepin(FINGER& finger, int direction);
-        int readpin(FINGER& finger);
+        static bool errorcheck(FINGER& finger);
+        static int setpin(FINGER& finger, int direction, int value);
+        static int writepin(FINGER& finger, int value);
+        static int readpin(FINGER& finger);
         
 };
 
 // RCTIMING::readvalue(hand.finger[0])
 
-void exitprotocol(&HAND hand){
+void RCTIMING::exitprotocol(HAND& hand){
     for(int i = 0; i < 5; i++){
         gpio_free(hand.finger[i].GPIOPIN);
     }
 }
 
-bool errorcheck(FINGER& finger){
+bool RCTIMING::errorcheck(FINGER& finger){
     //Check if pin is in use
-    if(gpio_is_requested(finger.GPIOPIN) < 0){
+    if((buffer = gpio_is_requested(finger.GPIOPIN)) < 0){
         cerr << "Requested pin " << finger.GPIOPIN << " is currently in use, releasing it now." << endl;
-        ugpio_free(finger.GPIOPIN);
-        if((gpio_request(finger.GPIOPIN, NULL) < 0){
+        gpio_free(finger.GPIOPIN);
+        if((buffer = gpio_request(finger.GPIOPIN, NULL)) < 0){
             cerr << "Error releasing pin " << finger.GPIOPIN << endl;
             return false;
         }
@@ -53,7 +57,7 @@ bool errorcheck(FINGER& finger){
             return true;
         }
     }
-    else if((gpio_request(finger.GPIOPIN, NULL) < 0){
+    else if((buffer = gpio_request(finger.GPIOPIN, NULL)) < 0){
         cerr << "Error releasing pin " << finger.GPIOPIN << endl;
         return false;
     }
@@ -62,18 +66,18 @@ bool errorcheck(FINGER& finger){
     }
 }
 
-int setpin(FINGER& finger, int direction, int value = 0){
+int RCTIMING::setpin(FINGER& finger, int direction, int value = 0){
     if(direction == 0){
-        gpio_direction_input(finger.GPIOPIN);
+        buffer = gpio_direction_input(finger.GPIOPIN);
         return 0;
     }
     else if(direction == 1){
         if(value == 0 || value == 1){
-            gpio_direction_output(finger.GPIOPIN, value);
+             buffer = gpio_direction_output(finger.GPIOPIN, value);
             return value;
         }
         else{
-            return -1
+            return -1;
         }
     }
     else{
@@ -81,19 +85,34 @@ int setpin(FINGER& finger, int direction, int value = 0){
     }
 }
 
-int readpin(FINGER& finger){
+int RCTIMING::readpin(FINGER& finger){
     return gpio_get_value(finger.GPIOPIN);
 }
 
-int writepin(FINGER& finger, int value){
+int RCTIMING::writepin(FINGER& finger, int value){
     if(value == 0 || value == 1){
-        ugpio_set_value(finger.GPIOPIN, value);
+        buffer = gpio_set_value(finger.GPIOPIN, value);
         return value;
     }
     else{
         return -1;
     }
     
+}
+
+long RCTIMING::readvalue(FINGER& finger){
+    long result = 0;
+    RCTIMING::setpin(finger, 1);
+    RCTIMING::writepin(finger, 1);
+    usleep(500);
+
+    RCTIMING::setpin(finger, 1);
+    RCTIMING::writepin(finger, 0);
+    while(RCTIMING::readpin(finger)){
+      result++;
+    }
+    return result;
+
 }
 
 
