@@ -5,7 +5,7 @@
 #include <fcntl.h>
 #include <iostream>
 #include <climits>
-
+#include <vector>
 #include <ugpio/ugpio.h>
 
 #include "RCTiming.h"
@@ -19,8 +19,8 @@ struct Stats{
     float popStdDev;
     float sampleStdDev;
     long mode;
-}
-
+};
+/*
 // change signature
 long minimum(const long dataset[], const int size) {
     
@@ -142,7 +142,7 @@ bool selection(long dataset[], const int size){
     dataset[maxIndex] = temp;
     return selection(dataset, size-1);
 }
-
+*/
 int main()
 {
     HAND hand = {0};
@@ -169,24 +169,26 @@ int main()
 
     long val = 0;
 
-    vector<long> dataset;
+    //vector<long> dataset;
 
-    Stats st = new Stats;
+    //Stats st = new Stats;
 
-    while()
+    while(true)
     {
-        val = RCTiming::readValue(hand.finger[2]);
-        dataset.push_back(val);
+        val = RCTIMING::readvalue(hand.finger[2]);
+        cout << "Value: " << val << endl;
+        usleep(1000*1000); //sleep for 1 second
+        /*dataset.push_back(val);
         st.minimum = minimum(dataset,dataset.size());
         st.average = average(dataset,dataset.size());
         st.maximum = maximum(dataset,dataset.size());
         st.popStdDev = popStdDev(dataset,dataset.size());
         st.sampleStdDev = smplStdDev(dataset,dataset.size());
 
-        LOGGER(st);
+        LOGGER(st);*/
     }
 
 
-    RCTiming::exitprotocol(hand);
+    RCTIMING::exitprotocol(hand);
     return 0;
 }

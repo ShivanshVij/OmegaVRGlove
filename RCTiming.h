@@ -22,18 +22,12 @@ struct HAND{
 };
 
 
-extern int buffer = 0;
+//extern int buffer = 0;
 
 class RCTIMING {
     public:
         static long readvalue(FINGER& finger);
-        static void exitprotocol(HAND& hand);
-    private:
-        static bool errorcheck(FINGER& finger);
-        static int setpin(FINGER& finger, int direction, int value);
-        static int writepin(FINGER& finger, int value);
-        static int readpin(FINGER& finger);
-        
+        static void exitprotocol(HAND& hand);    
 };
 
 // RCTIMING::readvalue(hand.finger[0])
@@ -44,74 +38,48 @@ void RCTIMING::exitprotocol(HAND& hand){
     }
 }
 
-bool RCTIMING::errorcheck(FINGER& finger){
-    //Check if pin is in use
-    if((buffer = gpio_is_requested(finger.GPIOPIN)) < 0){
-        cerr << "Requested pin " << finger.GPIOPIN << " is currently in use, releasing it now." << endl;
-        gpio_free(finger.GPIOPIN);
-        if((buffer = gpio_request(finger.GPIOPIN, NULL)) < 0){
-            cerr << "Error releasing pin " << finger.GPIOPIN << endl;
-            return false;
+long RCTIMING::readvalue(FINGER& finger){
+    //Static bool's state will be remembered between function calls
+    static bool ranonce = false;
+    int Request, Set;
+
+    //if ranonce is false, this is the first time the program has called readvalue, so the pin must be requested
+    if(!ranonce){
+        if((Request = gpio_is_requested(finger.GPIOPIN)) < 0){
+		    cerr << "This GPIO pin is in use" << endl;
+		    return -1;
+	    }
+	    else{
+		    cout << "Staring GPIO pin" << endl;
+		    if((Set = gpio_request(finger.GPIOPIN, NULL)) < 0){
+			    cerr << "There was an error setting the pin value" << endl;
+			    return -1;
+		    }
         }
-        else{
-            return true;
-        }
+        //Set ranonce to true to make sure we don't accidentally request the pin again
+        ranonce = true;
     }
-    else if((buffer = gpio_request(finger.GPIOPIN, NULL)) < 0){
-        cerr << "Error releasing pin " << finger.GPIOPIN << endl;
-        return false;
+
+    long result = 0;
+
+    if((Request = gpio_direction_output(finger.GPIOPIN, 1)) < 0){
+        cerr << "There was an error setting pin to output" << endl;
+        return -1;
     }
     else{
-        return true;
-    }
-}
-
-int RCTIMING::setpin(FINGER& finger, int direction, int value = 0){
-    if(direction == 0){
-        buffer = gpio_direction_input(finger.GPIOPIN);
-        return 0;
-    }
-    else if(direction == 1){
-        if(value == 0 || value == 1){
-             buffer = gpio_direction_output(finger.GPIOPIN, value);
-            return value;
-        }
-        else{
+        usleep(500*1000); //500 miliseconds, should be enough time to reset the gpio direction to input
+        if((Request = gpio_direction_input(finger.GPIOPIN)) < 0){
+            cerr << "There was an error setting pin to input" << endl;
             return -1;
         }
+        else{
+            while(gpio_get_value(finger.GPIOPIN)){
+                result++;
+            }
+            gpio_free(finger.GPIOPIN);
+            return result;
+        }
     }
-    else{
-        return -1;
-    }
-}
-
-int RCTIMING::readpin(FINGER& finger){
-    return gpio_get_value(finger.GPIOPIN);
-}
-
-int RCTIMING::writepin(FINGER& finger, int value){
-    if(value == 0 || value == 1){
-        buffer = gpio_set_value(finger.GPIOPIN, value);
-        return value;
-    }
-    else{
-        return -1;
-    }
-    
-}
-
-long RCTIMING::readvalue(FINGER& finger){
-    long result = 0;
-    RCTIMING::setpin(finger, 1);
-    RCTIMING::writepin(finger, 1);
-    usleep(500);
-
-    RCTIMING::setpin(finger, 1);
-    RCTIMING::writepin(finger, 0);
-    while(RCTIMING::readpin(finger)){
-      result++;
-    }
-    return result;
 
 }
 
