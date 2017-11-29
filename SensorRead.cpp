@@ -176,6 +176,10 @@ int main()
     while(true)
     {
         val = RCTIMING::readvalue(hand.finger[2]);
+        if(val < 0){
+            cerr << "Something went wrong" << endl;
+            break;
+        }
         cout << "Value: " << val << endl;
         usleep(1000*1000); //sleep for 1 second
         /*dataset.push_back(val);

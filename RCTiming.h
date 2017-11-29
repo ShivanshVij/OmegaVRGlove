@@ -50,7 +50,7 @@ long RCTIMING::readvalue(FINGER& finger){
 		    return -1;
 	    }
 	    else{
-		    cout << "Staring GPIO pin" << endl;
+		    cout << "Starting GPIO pin" << endl;
 		    if((Set = gpio_request(finger.GPIOPIN, NULL)) < 0){
 			    cerr << "There was an error setting the pin value" << endl;
 			    return -1;
@@ -67,13 +67,17 @@ long RCTIMING::readvalue(FINGER& finger){
         return -1;
     }
     else{
-        usleep(500*1000); //500 miliseconds, should be enough time to reset the gpio direction to input
+        usleep(1000); //1000 microseconds, should be enough time to reset the gpio direction to input
         if((Request = gpio_direction_input(finger.GPIOPIN)) < 0){
             cerr << "There was an error setting pin to input" << endl;
             return -1;
         }
         else{
-            while(gpio_get_value(finger.GPIOPIN)){
+            while(gpio_get_value(finger.GPIOPIN) != 0){
+                if(result > 50000){
+                    cerr << "Result took too long" << endl;
+                    return -1;
+                }
                 result++;
             }
             gpio_free(finger.GPIOPIN);

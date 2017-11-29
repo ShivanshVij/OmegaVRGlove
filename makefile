@@ -1,13 +1,48 @@
-# main compiler
+
+# This is the main compiler
 CXX := g++
+# CXX := clang --analyze # and comment out the linker last line for sanity
 
-TARGET1 := GPIO
+# Setting bash script variables
+SRCDIR := src
+INCDIR := include
+BUILDDIR := build
+BINDIR := bin
+TARGET := $(BINDIR)/OVERKILLGLOVE
 
-all: $(TARGET1)
+# Setting environment variables 
+SRCEXT := cpp
+SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
+OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
+CXXFLAGS := -g # -Wall
+#LIB := -pthread -lmongoclient -L lib -lboost_thread-mt -lboost_filesystem-mt -lboost_system-mt
+DEVICE_TYPE := "ramips"
+override CXXFLAGS += -D 'DEVICE_TYPE="$(DEVICE_TYPE)"'
 
-$(TARGET1): 
-	@echo "Compiling C program"
-	$(CXX) $(CFLAGS) $(TARGET1).cpp -o $(TARGET1) $(LDFLAGS) -l$(LIB)
+INC := $(shell find $(INCDIR) -maxdepth 1 -type d -exec echo -I {}  \;)
+
+$(TARGET): $(OBJECTS)
+	@mkdir -p $(BINDIR)
+	@echo " Linking..."
+	@echo " $(CXX) $^ -o $(TARGET) $(LIB)"; $(CXX) $^ -o $(TARGET) $(LIB)
+
+$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
+	@mkdir -p $(dir $@)
+	@echo " $(CXX) $(CXXFLAGS) $(INC) -c -o $@ $<"; $(CXX) $(CXXFLAGS) $(INC) -c -o $@ $<
 
 clean:
-	@rm -rf $(TARGET1) $(TARGET2)
+	@echo " Cleaning..."; 
+	@echo " $(RM) -r $(BUILDDIR) $(BINDIR)"; $(RM) -r $(BUILDDIR) $(BINDIR)
+
+bla:
+	@echo "$(BLA)"
+
+# Tests
+tester:
+	$(CXX) $(CXXFLAGS) test/tester.cpp $(INC) $(LIB) -o bin/tester
+
+# Spikes
+#ticket:
+#  $(CXX) $(CXXFLAGS) spikes/ticket.cpp $(INC) $(LIB) -o bin/ticket
+
+.PHONY: clean
