@@ -1,15 +1,31 @@
 #include <main.h>
+
+/* -------------------------------------------------------------OUR WORK START---------------------------------------------------------------------- */
+
 #include <unistd.h>
 #include <string>
 #include <sstream>
 #include <iostream>
 
+#include "logging.h"
+#include "statistics.h"
+
 using namespace std;
 
+struct FINGER {
+    int GPIOPIN;
+    int IO;
+    int VALUE;
+};
 
+struct HAND{
+    int hand;
+    FINGER* finger;
+};
+
+/* -------------------------------------------------------------OUR WORK END---------------------------------------------------------------------- */
 //Sets up the gpioSetup object
-void initGpioSetup (gpioSetup* obj)
-{
+void initGpioSetup (gpioSetup* obj){
 	obj->pinNumber	= -1;
 	obj->pinValue	= 0;
 	obj->pinDir		= 0;
@@ -28,12 +44,11 @@ void initGpioSetup (gpioSetup* obj)
 void usage(const char* progName) {
 	printf("Edited by Shivansh Vij for RCTiming\n");
 	printf("Usage:\n");
-	printf("RCTiming <gpio to read from>\n");
+	printf("RCTiming <gpio to read from> <gpio to read from>\n");
 	printf("\n");
 }
 
-void print(int verbosity, char* cmd, int pin, char* val)
-{
+void print(int verbosity, char* cmd, int pin, char* val){
 	if 	(	verbosity != FASTGPIO_VERBOSITY_QUIET &&
 			verbosity != FASTGPIO_VERBOSITY_JSON
 		) 
@@ -46,8 +61,7 @@ void print(int verbosity, char* cmd, int pin, char* val)
 }
 
 // function to run gpio commands
-int gpioRun(gpioSetup* setup)
-{
+int gpioRun(gpioSetup* setup){
 	int status	= EXIT_SUCCESS;
 	FastGpio	* gpioObj;
 	// object setup
@@ -93,12 +107,10 @@ int gpioRun(gpioSetup* setup)
 }
 
 // function to read any existing pid notes and kill the child processes
-int killOldProcess(int pinNum)
-{
+int killOldProcess(int pinNum){
 	char 	pathname[255];
 	char	line[255];
 	char	cmd[255];
-
 	int 	pid;
 	std::ifstream myfile;
 
@@ -126,8 +138,7 @@ int killOldProcess(int pinNum)
 }
 
 // function to kill any old processes, based on which command is being run
-int checkOldProcess(gpioSetup *setup)
-{
+int checkOldProcess(gpioSetup *setup){
 	switch (setup->cmd) {
 		case GPIO_CMD_SET:
 		case GPIO_CMD_SET_DIRECTION:
@@ -144,8 +155,45 @@ int checkOldProcess(gpioSetup *setup)
 	return EXIT_SUCCESS;
 }
 
-int main(int argc, char* argv[])
-{
+/* -------------------------------------------------------------OUR WORK START---------------------------------------------------------------------- */
+long RCTimer(gpioSetup* setup, int PIN){
+		long result = 0;
+		int status = 0;
+		//Set pin to output
+		setup->cmd 		= GPIO_CMD_SET_DIRECTION;
+		setup->pinDir 	= 1;
+		strcpy(setup->cmdString, FASTGPIO_CMD_STRING_SET_DIR);
+		setup->pinNumber = PIN;
+		status = gpioRun(setup);
+
+		usleep(500);
+
+		//Set pin to high output
+		setup->cmd 		= GPIO_CMD_SET;
+		strcpy(setup->cmdString, FASTGPIO_CMD_STRING_SET);
+		setup->pinValue = 1;
+		status = gpioRun(setup);
+
+		usleep(500);
+
+		//Set pin to input
+		setup->cmd 		= GPIO_CMD_SET_DIRECTION;
+		setup->pinDir 	= 0;
+		strcpy(setup->cmdString, FASTGPIO_CMD_STRING_SET_DIR);
+		status = gpioRun(setup);
+
+		usleep(500);
+
+		//Read the RCTime value
+		setup->cmd 		= GPIO_CMD_READ;
+		strcpy(setup->cmdString, FASTGPIO_CMD_STRING_READ);
+		while(gpioRun(setup)){
+			result++;
+		}
+		return result;
+}
+
+int main(int argc, char* argv[]){
 	int 		status;
 	int 		ch;
 
@@ -174,48 +222,14 @@ int main(int argc, char* argv[])
 	// check for any pwm processes already running on this pin
 	status = checkOldProcess(setup);
 	while(true){
-		if(status == EXIT_FAILURE){
-			break;
-		}
-		long result = 0;
+		cout << "| FINGER |\t| RESISTANCE VALUE |\t"
 
-		//Set pin to output
-		setup->cmd 		= GPIO_CMD_SET_DIRECTION;
-		setup->pinDir 	= 1;
-		strcpy(setup->cmdString, FASTGPIO_CMD_STRING_SET_DIR);
-		setup->pinNumber = atoi(argv[1]);
-		status = gpioRun(setup);
-
-		usleep(500);
-
-		//Set pin to high output
-		setup->cmd 		= GPIO_CMD_SET;
-		strcpy(setup->cmdString, FASTGPIO_CMD_STRING_SET);
-		setup->pinValue = 1;
-		status = gpioRun(setup);
-
-		usleep(500);
-
-		//Set pin to input
-		setup->cmd 		= GPIO_CMD_SET_DIRECTION;
-		setup->pinDir 	= 0;
-		strcpy(setup->cmdString, FASTGPIO_CMD_STRING_SET_DIR);
-		status = gpioRun(setup);
-
-		usleep(500);
-
-		//Read the RCTime value
-		setup->cmd 		= GPIO_CMD_READ;
-		strcpy(setup->cmdString, FASTGPIO_CMD_STRING_READ);
-		while(gpioRun(setup)){
-			result++;
-		}
 		printf("Value: ");
-		cout << result;
+
+
+		cout << RCTimer(setup, atoi(argv[1]));
 		printf("\n");
-
-
-		usleep(1000*1000);
+		usleep(1000*50);
 	}
 
 	// clean-up
@@ -224,3 +238,4 @@ int main(int argc, char* argv[])
 
 	return 0;
 }
+/* -------------------------------------------------------------OUR WORK END---------------------------------------------------------------------- */
