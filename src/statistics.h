@@ -20,7 +20,6 @@ struct Stats{
         long maximum;
         float popStdDev;
         float sampleStdDev;
-        long mode;
 };
 
 class STATS{

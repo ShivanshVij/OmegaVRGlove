@@ -12,14 +12,7 @@
 
 using namespace std;
 
-struct Stats{
-        long minimum;
-        float average;
-        long maximum;
-        float popStdDev;
-        float sampleStdDev;
-        long mode;
-};
+struct Stats ;
 
 /* -------------------------------------------------------------OUR WORK END---------------------------------------------------------------------- */
 //Sets up the gpioSetup object

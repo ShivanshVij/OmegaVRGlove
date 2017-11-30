@@ -23,46 +23,47 @@ struct HAND {
         FINGER* finger;
 };
 
-struct Stats STATS;
+struct Stats ;
 
 class LOG {
 
 public:
     static bool HLOG(HAND& object, int status);
-    static bool SLOG(STATS& object, int status);
+    static bool SLOG(Stats& object, int status);
 
 private:
-    static bool HAND(HAND& object);
-    static bool STATS(STATS& object);
+    static bool HANDLOG(HAND& object);
+    static bool STATSLOG(Stats& object);
     static bool HERROR(HAND& object);
-    static bool SERROR(STATS& object);
+    static bool SERROR(Stats& object);
 };
 
-bool LOG::HLOG(HAND& object, int status=0;){
+bool LOG::HLOG(HAND& object, int status=0){
     if (status!=0){
         LOG::HERROR(object);
         return true;
     }
     else{
-        LOG::HAND(object);
+        LOG::HANDLOG(object);
         return true;
     }
 }
 
-bool LOG::SLOG(STATS& object, int status=0;){
+bool LOG::SLOG(Stats& object, int status=0){
     if (status!=0){
         LOG::SERROR(object);
         return true;
     }
     else{
-        LOG::STATS(object);
+        LOG::STATSLOG(object);
         return true;
     }
 }
 
 
-bool LOG::HAND(HAND& hand){
-    ofstream.open(filename,ios_base::app);
+bool LOG::HANDLOG(HAND& hand){
+    ofstream outfile;
+    outfile.open(filename,ios_base::app);
     if(!outfile.is_open())
     return LOG::HERROR(hand);
 
@@ -77,13 +78,6 @@ bool LOG::HAND(HAND& hand){
     
     outfile<<"Finger 1 Settings: Thumb"<<endl;
     outfile<<"Pin Number: "<<hand.finger[0].GPIOPIN<<endl;
-    if (hand.finger[0].IO==0){
-        outfile<<"Pin Mode: Input"<<endl;   
-    }
-    else if (hand.finger[0].IO==1){
-        outfile<<"Pin Mode: Output"<<endl;   
-    }
-    
     if (hand.finger[0].VALUE==0){
         outfile<<"Pin Mode: Low"<<endl;   
     }
@@ -94,12 +88,6 @@ bool LOG::HAND(HAND& hand){
 
     outfile<<"Finger 2 Settings: Index"<<endl;
     outfile<<"Pin Number: "<<hand.finger[1].GPIOPIN<<endl;
-    if (hand.finger[1].IO==0){
-        outfile<<"Pin Mode: Input"<<endl;   
-    }
-    else if (hand.finger[1].IO==1){
-        outfile<<"Pin Mode: Output"<<endl;   
-    }
     
     if (hand.finger[1].VALUE==0){
         outfile<<"Pin Mode: Low"<<endl;   
@@ -112,12 +100,6 @@ bool LOG::HAND(HAND& hand){
 
     outfile<<"Finger 3 Settings: Middle Finger"<<endl;
     outfile<<"Pin Number: "<<hand.finger[2].GPIOPIN<<endl;
-    if (hand.finger[2].IO==0){
-        outfile<<"Pin Mode: Input"<<endl;   
-    }
-    else if (hand.finger[2].IO==1){
-        outfile<<"Pin Mode: Output"<<endl;   
-    }
     
     if (hand.finger[2].VALUE==0){
         outfile<<"Pin Mode: Low"<<endl;   
@@ -131,12 +113,6 @@ bool LOG::HAND(HAND& hand){
 
     outfile<<"Finger 4 Settings: Ring Finger"<<endl;
     outfile<<"Pin Number: "<<hand.finger[3].GPIOPIN<<endl;
-    if (hand.finger[3].IO==0){
-        outfile<<"Pin Mode: Input"<<endl;   
-    }
-    else if (hand.finger[3].IO==1){
-        outfile<<"Pin Mode: Output"<<endl;   
-    }
     
     if (hand.finger[3].VALUE==0){
         outfile<<"Pin Mode: Low"<<endl;   
@@ -149,12 +125,6 @@ bool LOG::HAND(HAND& hand){
 
     outfile<<"Finger 5 Settings: Pinky (Little Finger)"<<endl;
     outfile<<"Pin Number: "<<hand.finger[4].GPIOPIN<<endl;
-    if (hand.finger[4].IO==0){
-        outfile<<"Pin Mode: Input"<<endl;   
-    }
-    else if (hand.finger[4].IO==1){
-        outfile<<"Pin Mode: Output"<<endl;   
-    }
     
     if (hand.finger[4].VALUE==0){
         outfile<<"Pin Mode: Low"<<endl;   
@@ -170,12 +140,13 @@ bool LOG::HAND(HAND& hand){
     return true;
 }
 
-bool LOG::STATS(STATS& stats){
+bool LOG::STATSLOG(Stats& stats){
     int s=0;
-    ofstream.open(filename,ios_base::app);
+    ofstream outfile;
+    outfile.open(filename,ios_base::app);
     if(!outfile.is_open())
     return LOG::SERROR(stats);   
-    if (stats.minimum<0 || stats.maximum<0 || stats.average<0 || stats.mode.numModes<0 ){
+    if (stats.minimum<0 || stats.maximum<0 || stats.average<0){
         
         return LOG::SERROR(stats);
     }
@@ -193,16 +164,7 @@ bool LOG::STATS(STATS& stats){
     outfile << "Maximum: " << stats.maximum << endl;
     outfile << "Population Standard Deviation: " << stats.popStdDev << endl;
 
-    outfile << "Sample Standard Deviation: " << stats.smplStdDev << endl;
-    outfile << "Modes: ";
-    if (stats.mode.numModes>0){
-        
-        outfile<<stats.mode.modes[0];
-        for (unsigned char x = 1; x < stats.mode.numModes; x++)
-        {
-            outfile << ", "<<stats.mode.modes[x];
-        }
-    }
+    outfile << "Sample Standard Deviation: " << stats.sampleStdDev << endl;
     outfile.close();
 
     return true;
@@ -210,7 +172,8 @@ bool LOG::STATS(STATS& stats){
 
 bool LOG::HERROR(HAND& hand){
     int s=0;
-    ofstream.open(filename,ios_base::app);
+    ofstream outfile;
+    outfile.open(filename,ios_base::app);
     if(!outfile.is_open()){
         return false;   
     }
@@ -227,9 +190,10 @@ bool LOG::HERROR(HAND& hand){
     outfile.close();
     return true;
 }
-bool LOG::SERROR(STATS& stats){
+bool LOG::SERROR(Stats& stats){
     int s=0;
-    ofstream.open(filename,ios_base::app);
+    ofstream outfile;
+    outfile.open(filename,ios_base::app);
     if(!outfile.is_open()){
         return false;   
     }
