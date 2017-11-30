@@ -10,12 +10,10 @@ using namespace std;
 class LOG{
 
 public:
-
-    static LOG (HAND object, int status=0);
-    static LOG (STATS object, int status=0);
+    static bool LOG(HAND object, int status=0);
+    static bool LOG(STATS object, int status=0);
 
 private:
-
     char filename[]="Logging.stat";
     ofstream outfile;
     static bool HAND(HAND object);
@@ -27,22 +25,26 @@ friend:
 
 };
 
-static LOG::LOG(HAND object, int status=0){
+bool LOG::LOG(HAND object, int status=0){
     if (status!=0){
         LOG::ERROR(object);
+        return true;
     }
     else{
         LOG::HAND(object);
+        return true;
     }
 }
 
-static LOG::LOG(STATS object, int status=0){
+bool LOG::LOG(STATS object, int status=0){
     
     if (status!=0){
         LOG::ERROR(object);
+        return true;
     }
     else{
         LOG::STATS(object);
+        return true;
     }
 }
 
