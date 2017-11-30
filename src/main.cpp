@@ -14,7 +14,6 @@ using namespace std;
 
 struct FINGER {
     int GPIOPIN;
-    int IO;
     int VALUE;
 };
 
@@ -219,16 +218,13 @@ int main(int argc, char* argv[]){
 		printf("Enter a pin number.\n");
 		return -1;
 	}
+	cout << "| FINGER |\t| RESISTANCE VALUE |\t| CALCULATED ANGLE";
+
 	// check for any pwm processes already running on this pin
 	status = checkOldProcess(setup);
 	while(true){
-		cout << "| FINGER |\t| RESISTANCE VALUE |\t"
-
-		printf("Value: ");
-
-
-		cout << RCTimer(setup, atoi(argv[1]));
-		printf("\n");
+		long VALUE = RCTimer(setup, atoi(argv[1]));
+		cout << "| 1 |\t| " << VALUE << " |\t| " << VALUE/15 << " |" << endl;
 		usleep(1000*50);
 	}
 
