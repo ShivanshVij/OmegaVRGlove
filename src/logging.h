@@ -10,8 +10,7 @@
 
 using namespace std;
 
-extern const char* filename = "Logging.stat";
-extern std::ofstream outfile;
+const char* filename = "Logging.stat";
 
 struct FINGER {
         int GPIOPIN;

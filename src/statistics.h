@@ -137,7 +137,7 @@ bool STATS::sort(long dataset[], const int size){
 }
 
 bool STATS::selection(long dataset[], const int size){
-    long max = LLONG_MIN;
+    long max = 1024;
     int maxIndex = 0;
     
     if(size == 1){
