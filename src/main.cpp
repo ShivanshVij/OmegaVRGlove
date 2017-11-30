@@ -206,23 +206,55 @@ int main(int argc, char* argv[]){
 	argc 	-= optind;
 	argv	+= optind;
 
+
+	HAND hand = {0};
+   	hand.hand = 1;
+    hand.finger = new FINGER[5];
+    /*
+        GPIO Pins:
+        Thumb:finger[0]: 1
+        Index:finger[1]: 2
+        Middle:finger[2]: 3
+        Ring:finger[3]: 19
+        Pinky:finger[4]: 18
+    */
+    hand.finger[0].GPIOPIN = 1;
+    hand.finger[1].GPIOPIN = 2;
+    hand.finger[2].GPIOPIN = 3;
+    hand.finger[3].GPIOPIN = 19;
+    hand.finger[4].GPIOPIN = 18;
+    for(int i = 0; i < 5; i++){
+        hand.finger[i].VALUE=0;
+	}
+
 	if(argc < 2){
 		printf("Enter a pin number.\n");
 		return -1;
 	}
-	cout << "| FINGER |\t| RESISTANCE VALUE |\t| CALCULATED ANGLE";
+	cout << "| FINGER |\t| PIN |\t| RESISTANCE VALUE |\t| CALCULATED ANGLE";
 
 	// check for any pwm processes already running on this pin
 	status = checkOldProcess(setup);
+
+	int counter = 0;
+
 	while(true){
-		long VALUE = RCTimer(setup, atoi(argv[1]));
-		cout << "| 1 |\t| " << VALUE << " |\t| " << VALUE/15 << " |" << endl;
+
+		if(counter > 1000){
+			break;
+		}
+
+		long VALUE = RCTimer(setup, hand.finger[3].GPIOPIN);
+		cout << "| 4 |\t| " << finger[3].GPIOPIN << " |\t| " << VALUE << " |\t| " << VALUE/15 << " |" << endl;
 		usleep(1000*50);
+		counter++;
 	}
 
 	// clean-up
 	delete 	val;
 	delete 	setup;
+
+	cout << "PROGRAM ENDED WITH CLEANUP" << endl;
 
 	return 0;
 }
