@@ -12,22 +12,31 @@
 #include <cmath>
 #include <limits>
 
-#include "logging.h"
-
 using namespace std;
 
-class STATS{
-
-public:
-    struct Stats{
+struct Stats{
         long minimum;
         float average;
         long maximum;
         float popStdDev;
         float sampleStdDev;
         long mode;
-    };
-    static bool STATISTICS(LOG::HAND& object, int status);
+};
+
+struct FINGER {
+        int GPIOPIN;
+        int VALUE;
+};
+
+struct HAND {
+        int hand;
+        FINGER* finger;
+};
+
+class STATS{
+
+public:
+    static bool STATISTICS(HAND& object, int status);
     static bool sort(long dataset[], const int size);
     static bool selection(long dataset[], const int size);
 

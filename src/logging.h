@@ -7,33 +7,42 @@
 #include <vector>
 #include <cmath>
 
-#include "statistics.h"
-
 using namespace std;
 
 extern const char* filename = "Logging.stat";
 extern std::ofstream outfile;
 
+struct FINGER {
+        int GPIOPIN;
+        int VALUE;
+};
+
+struct HAND {
+        int hand;
+        FINGER* finger;
+};
+
+typedef struct Stats{
+        long minimum;
+        float average;
+        long maximum;
+        float popStdDev;
+        float sampleStdDev;
+        long mode;
+};
+
+
 class LOG {
 
 public:
-    struct FINGER {
-        int GPIOPIN;
-        int VALUE;
-    };
-
-    struct HAND{
-        int hand;
-        FINGER* finger;
-    };
     static bool HLOG(HAND& object, int status);
-    static bool SLOG(STATS::Stats& object, int status);
+    static bool SLOG(Stats& object, int status);
 
 private:
     static bool HAND(HAND& object);
-    static bool STATS(STATS::Stats& object);
+    static bool STATS(Stats& object);
     static bool HERROR(HAND& object);
-    static bool SERROR(STATS::Stats& object);
+    static bool SERROR(Stats& object);
 };
 
 bool LOG::HLOG(HAND& object, int status=0;){
@@ -47,7 +56,7 @@ bool LOG::HLOG(HAND& object, int status=0;){
     }
 }
 
-bool LOG::SLOG(STATS::Stats& object, int status=0;){
+bool LOG::SLOG(Stats& object, int status=0;){
     if (status!=0){
         LOG::SERROR(object);
         return true;
@@ -168,7 +177,7 @@ bool LOG::HAND(HAND& hand){
     return true;
 }
 
-bool LOG::STATS(STATS::Stats& stats){
+bool LOG::STATS(Stats& stats){
     int s=0;
     ofstream.open(filename,ios_base::app);
     if(!outfile.is_open())
@@ -225,7 +234,7 @@ bool LOG::HERROR(HAND& hand){
     outfile.close();
     return true;
 }
-bool LOG::SERROR(STATS& stats){
+bool LOG::SERROR(Stats& stats){
     int s=0;
     ofstream.open(filename,ios_base::app);
     if(!outfile.is_open()){

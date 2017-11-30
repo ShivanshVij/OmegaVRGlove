@@ -7,11 +7,19 @@
 #include <sstream>
 #include <iostream>
 
-#include "logging.h"
 #include "statistics.h"
+#include "logging.h"
 
 using namespace std;
 
+struct Stats{
+        long minimum;
+        float average;
+        long maximum;
+        float popStdDev;
+        float sampleStdDev;
+        long mode;
+};
 
 /* -------------------------------------------------------------OUR WORK END---------------------------------------------------------------------- */
 //Sets up the gpioSetup object
