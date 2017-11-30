@@ -245,7 +245,7 @@ int main(int argc, char* argv[]){
 		}
 
 		long VALUE = RCTimer(setup, hand.finger[3].GPIOPIN);
-		cout << "| 4 |\t| " << finger[3].GPIOPIN << " |\t| " << VALUE << " |\t| " << VALUE/15 << " |" << endl;
+		cout << "| 4 |\t| " << hand.finger[3].GPIOPIN << " |\t| " << VALUE << " |\t| " << VALUE/15 << " |" << endl;
 		usleep(1000*50);
 		counter++;
 	}
