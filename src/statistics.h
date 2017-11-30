@@ -23,20 +23,9 @@ struct Stats{
         long mode;
 };
 
-struct FINGER {
-        int GPIOPIN;
-        int VALUE;
-};
-
-struct HAND {
-        int hand;
-        FINGER* finger;
-};
-
 class STATS{
 
 public:
-    static bool STATISTICS(HAND& object, int status);
     static bool sort(long dataset[], const int size);
     static bool selection(long dataset[], const int size);
 
