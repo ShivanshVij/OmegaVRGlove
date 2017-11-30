@@ -5,6 +5,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <stdlib.h>
+#include "statistics.h"
 
 using namespace std;
 

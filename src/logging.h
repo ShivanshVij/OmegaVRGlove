@@ -4,28 +4,38 @@
 #include <iostream>
 #include <unistd.h>
 #include <stdlib.h>
+#include "statistics.h"
+#include <vector>
+#include <cmath>
 
 using namespace std;
+
+struct FINGER {
+    int GPIOPIN;
+    int VALUE;
+};
+
+struct HAND{
+    int hand;
+    FINGER* finger;
+};
 
 class LOG{
 
 public:
-    static bool LOG(HAND object, int status=0);
-    static bool LOG(STATS object, int status=0);
+    static bool LOG(HAND& object, int status);
+    static bool LOG(STATS& object, int status);
 
 private:
-    char filename[]="Logging.stat";
+    char filename = "Logging.stat";
     ofstream outfile;
-    static bool HAND(HAND object);
-    static bool STATS(STATS object);
-    static bool ERROR(HAND object);
-    static bool ERROR(STATS object);
-
-friend:
-
+    static bool HAND(HAND& object);
+    static bool STATS(STATS& object);
+    static bool ERROR(HAND& object);
+    static bool ERROR(STATS& object);
 };
 
-bool LOG::LOG(HAND object, int status=0){
+bool LOG::LOG(HAND& object, int status=0;){
     if (status!=0){
         LOG::ERROR(object);
         return true;
@@ -36,8 +46,7 @@ bool LOG::LOG(HAND object, int status=0){
     }
 }
 
-bool LOG::LOG(STATS object, int status=0){
-    
+bool LOG::LOG(STATS object, int status=0;){
     if (status!=0){
         LOG::ERROR(object);
         return true;
@@ -49,8 +58,7 @@ bool LOG::LOG(STATS object, int status=0){
 }
 
 
-static bool LOG::HAND(HAND hand){
-    
+bool LOG::HAND(HAND hand){
     ofstream.open(filename,ios_base::app);
     if(!outfile.is_open())
     return LOG::ERROR(hand);
@@ -159,7 +167,7 @@ static bool LOG::HAND(HAND hand){
     return true;
 }
 
-static bool LOG::STATS(STATS stats){
+bool LOG::STATS(STATS stats){
     int s=0;
     ofstream.open(filename,ios_base::app);
     if(!outfile.is_open())
@@ -197,11 +205,12 @@ static bool LOG::STATS(STATS stats){
     return true;
 }
 
-static bool LOG::ERROR(HAND hand){
+bool LOG::ERROR(HAND hand){
     int s=0;
     ofstream.open(filename,ios_base::app);
-    if(!outfile.is_open())
-    return false;   
+    if(!outfile.is_open()){
+        return false;   
+    }
 
     time_t currentTime=time (0);
     char* localTime=ctime(&currentTime);
@@ -213,12 +222,15 @@ static bool LOG::ERROR(HAND hand){
     outfile << "Error Finding Hand and Fingers Settings"<< endl;
 
     outfile.close();
+    return true;
 }
-static bool LOG::ERROR(STATS stats){
+bool LOG::ERROR(STATS stats){
     int s=0;
     ofstream.open(filename,ios_base::app);
-    if(!outfile.is_open())
-    return false;   
+    if(!outfile.is_open()){
+        return false;   
+    }
+
     outfile<<"---------------------------------"<<endl;
     outfile<<"STATISTICS ERROR LOGGING!"<<endl;
     outfile<<"---------------------------------\n"<<endl;
@@ -231,6 +243,7 @@ static bool LOG::ERROR(STATS stats){
     outfile << "Error Calculating Statistics"<< endl;
 
     outfile.close();
+    return true;
 }
 
 #endif

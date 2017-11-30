@@ -9,6 +9,10 @@
 #include <iostream>
 #include <climits>
 #include <vector>
+#include <cmath>
+#include <limits>
+
+#include "logging.h"
 
 using namespace std;
 
@@ -26,7 +30,7 @@ class STATS{
 public:
     static bool STATISTICS(HAND object, int status=0);
     static bool sort(long dataset[], const int size);
-    bool selection(long dataset[], const int size);
+    static bool selection(long dataset[], const int size);
 
 private:
     static long minimum(const long dataset[], const int size);
@@ -34,8 +38,6 @@ private:
     static long maximum(const long dataset[], const int size);
     static float popStdDev(const long dataset[], const int size);
     static float smplStdDev(const long dataset[], const int size);
-
-friend:
 
 };
 

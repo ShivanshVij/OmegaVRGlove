@@ -12,15 +12,6 @@
 
 using namespace std;
 
-struct FINGER {
-    int GPIOPIN;
-    int VALUE;
-};
-
-struct HAND{
-    int hand;
-    FINGER* finger;
-};
 
 /* -------------------------------------------------------------OUR WORK END---------------------------------------------------------------------- */
 //Sets up the gpioSetup object
