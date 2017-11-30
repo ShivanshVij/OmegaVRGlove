@@ -4,40 +4,41 @@
 #include <iostream>
 #include <unistd.h>
 #include <stdlib.h>
-#include "statistics.h"
 #include <vector>
 #include <cmath>
 
+#include "statistics.h"
+
 using namespace std;
 
-struct FINGER {
-    int GPIOPIN;
-    int VALUE;
-};
+extern const char* filename = "Logging.stat";
+extern std::ofstream outfile;
 
-struct HAND{
-    int hand;
-    FINGER* finger;
-};
-
-class LOG{
+class LOG {
 
 public:
-    static bool LOG(HAND& object, int status);
-    static bool LOG(STATS& object, int status);
+    struct FINGER {
+        int GPIOPIN;
+        int VALUE;
+    };
+
+    struct HAND{
+        int hand;
+        FINGER* finger;
+    };
+    static bool HLOG(HAND& object, int status);
+    static bool SLOG(STATS::Stats& object, int status);
 
 private:
-    char filename = "Logging.stat";
-    ofstream outfile;
     static bool HAND(HAND& object);
-    static bool STATS(STATS& object);
-    static bool ERROR(HAND& object);
-    static bool ERROR(STATS& object);
+    static bool STATS(STATS::Stats& object);
+    static bool HERROR(HAND& object);
+    static bool SERROR(STATS::Stats& object);
 };
 
-bool LOG::LOG(HAND& object, int status=0;){
+bool LOG::HLOG(HAND& object, int status=0;){
     if (status!=0){
-        LOG::ERROR(object);
+        LOG::HERROR(object);
         return true;
     }
     else{
@@ -46,9 +47,9 @@ bool LOG::LOG(HAND& object, int status=0;){
     }
 }
 
-bool LOG::LOG(STATS object, int status=0;){
+bool LOG::SLOG(STATS::Stats& object, int status=0;){
     if (status!=0){
-        LOG::ERROR(object);
+        LOG::SERROR(object);
         return true;
     }
     else{
@@ -58,10 +59,10 @@ bool LOG::LOG(STATS object, int status=0;){
 }
 
 
-bool LOG::HAND(HAND hand){
+bool LOG::HAND(HAND& hand){
     ofstream.open(filename,ios_base::app);
     if(!outfile.is_open())
-    return LOG::ERROR(hand);
+    return LOG::HERROR(hand);
 
     outfile<<"---------------------------------"<<endl;
     outfile<<"Hand and Fingers Settings"<<endl;
@@ -167,14 +168,14 @@ bool LOG::HAND(HAND hand){
     return true;
 }
 
-bool LOG::STATS(STATS stats){
+bool LOG::STATS(STATS::Stats& stats){
     int s=0;
     ofstream.open(filename,ios_base::app);
     if(!outfile.is_open())
-    return LOG::ERROR(stats);   
+    return LOG::SERROR(stats);   
     if (stats.minimum<0 || stats.maximum<0 || stats.average<0 || stats.mode.numModes<0 ){
         
-        return LOG::ERROR(stats);
+        return LOG::SERROR(stats);
     }
 
     outfile<<"---------------------------------"<<endl;
@@ -205,7 +206,7 @@ bool LOG::STATS(STATS stats){
     return true;
 }
 
-bool LOG::ERROR(HAND hand){
+bool LOG::HERROR(HAND& hand){
     int s=0;
     ofstream.open(filename,ios_base::app);
     if(!outfile.is_open()){
@@ -224,7 +225,7 @@ bool LOG::ERROR(HAND hand){
     outfile.close();
     return true;
 }
-bool LOG::ERROR(STATS stats){
+bool LOG::SERROR(STATS& stats){
     int s=0;
     ofstream.open(filename,ios_base::app);
     if(!outfile.is_open()){

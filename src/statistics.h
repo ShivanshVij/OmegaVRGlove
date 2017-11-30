@@ -16,19 +16,18 @@
 
 using namespace std;
 
-struct Stats{
-    long minimum;
-    float average;
-    long maximum;
-    float popStdDev;
-    float sampleStdDev;
-    long mode;
-};
-
 class STATS{
 
 public:
-    static bool STATISTICS(HAND object, int status=0);
+    struct Stats{
+        long minimum;
+        float average;
+        long maximum;
+        float popStdDev;
+        float sampleStdDev;
+        long mode;
+    };
+    static bool STATISTICS(LOG::HAND& object, int status);
     static bool sort(long dataset[], const int size);
     static bool selection(long dataset[], const int size);
 
