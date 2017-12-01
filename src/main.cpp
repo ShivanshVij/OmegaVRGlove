@@ -231,12 +231,11 @@ int main(int argc, char* argv[]){
 		LOG::HLOG(hand);
 	}
 
-	if(argc < 2){
+	/*if(argc < 2){
 		printf("Enter a pin number.\n");
 		LOG::HLOG(hand,1);
 		return -1;
-	}
-	cout << "| FINGER |\t| PIN |\t| RESISTANCE VALUE |\t| CALCULATED ANGLE";
+	}*/
 
 	// check for any pwm processes already running on this pin
 	status = checkOldProcess(setup);
@@ -250,16 +249,24 @@ int main(int argc, char* argv[]){
 			break;
 		}
 
-		long VALUE = RCTimer(setup, hand.finger[3].GPIOPIN);
-		cout << "| 4 |\t| " << hand.finger[3].GPIOPIN << " |\t| " << VALUE << " |\t| " << VALUE/15 << " |" << endl;
-		LOG::HHLOG(hand);
-		usleep(1000*50);
+		long VALUE1 = RCTimer(setup, hand.finger[0].GPIOPIN);
+		long VALUE2 = RCTimer(setup, hand.finger[1].GPIOPIN);
+		long VALUE3 = RCTimer(setup, hand.finger[2].GPIOPIN);
+		long VALUE4 = RCTimer(setup, hand.finger[3].GPIOPIN);
+		long VALUE5 = RCTimer(setup, hand.finger[4].GPIOPIN);
+
+		cout << "| FINGER 1 |\t| FINGER 2 |\t| FINGER 3 |\t| FINGER 4 |\t| FINGER 5 |";
+		cout << "| " << VALUE1 << " |\t| " << VALUE2 << " |\t| " << VALUE3 << " |\t| " << VALUE4 << " |\t| " << VALUE5 << " |";
+		
+		//cout << "| 4 |\t| " << hand.finger[3].GPIOPIN << " |\t| " << VALUE << " |\t| " << VALUE/15 << " |" << endl;
+		LOG::HLOG(hand);
+		usleep(1000*250);
 		counter++;
 	}
-	LOG::HHLOG(hand);
+	LOG::HLOG(hand);
 	
 	cout << "PROGRAM ENDED WITH CLEANUP" << endl;
-	LOG::HHLOG(hand);
+	LOG::HLOG(hand);
 	return 0;
 }
 /* -------------------------------------------------------------OUR WORK END---------------------------------------------------------------------- */
