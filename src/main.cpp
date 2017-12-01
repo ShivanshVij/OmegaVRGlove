@@ -254,7 +254,7 @@ int main(int argc, char* argv[]){
 		cout << "| 4 |\t| " << hand.finger[3].GPIOPIN << " |\t| " << VALUE << " |\t| " << VALUE/15 << " |" << endl;
 		LOG::LOG(hand);
 		usleep(1000*50);
-		LOG::LOG(hand);
+		LOG::HLOG(hand);
 		counter++;
 	}
 	LOG::LOG(hand);
