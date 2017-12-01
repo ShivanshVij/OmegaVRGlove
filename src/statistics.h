@@ -25,6 +25,7 @@ struct Stats{
 class STATS{
 
 public:
+    static bool STATISTICS(long dataset[], const int size);
     static bool sort(long dataset[], const int size);
     static bool selection(long dataset[], const int size);
 
@@ -157,6 +158,10 @@ bool STATS::selection(long dataset[], const int size){
     dataset[size-1] = max;
     dataset[maxIndex] = temp;
     return selection(dataset, size-1);
+}
+
+bool STATS::STATISTICS(long dataset[], const int size){
+    return false;
 }
 
 #endif

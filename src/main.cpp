@@ -261,6 +261,7 @@ int main(int argc, char* argv[]){
 		//cout << "| 4 |\t| " << hand.finger[3].GPIOPIN << " |\t| " << VALUE << " |\t| " << VALUE/15 << " |" << endl;
 		LOG::HLOG(hand);
 		usleep(1000*250);
+
 		counter++;
 	}
 	LOG::HLOG(hand);
