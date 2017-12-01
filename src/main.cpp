@@ -210,7 +210,7 @@ int main(int argc, char* argv[]){
 	HAND hand = {0};
    	hand.hand = 1;
 	hand.finger = new FINGER[5];
-	LOG::LOG(hand);
+	LOG::HLOG(hand);
     /*
         GPIO Pins:
         Thumb:finger[0]: 1
@@ -224,46 +224,42 @@ int main(int argc, char* argv[]){
     hand.finger[2].GPIOPIN = 3;
     hand.finger[3].GPIOPIN = 19;
 	hand.finger[4].GPIOPIN = 18;
-	LOG::LOG(hand);
+	LOG::HLOG(hand);
 
     for(int i = 0; i < 5; i++){
 		hand.finger[i].VALUE=0;
-		LOG::LOG(hand);
+		LOG::HLOG(hand);
 	}
 
 	if(argc < 2){
 		printf("Enter a pin number.\n");
-		LOG::LOG(hand,1);
+		LOG::HLOG(hand,1);
 		return -1;
 	}
 	cout << "| FINGER |\t| PIN |\t| RESISTANCE VALUE |\t| CALCULATED ANGLE";
 
 	// check for any pwm processes already running on this pin
 	status = checkOldProcess(setup);
-	LOG::LOG(hand);
+	LOG::HLOG(hand);
 	int counter = 0;
 
 	while(true){
 
 		if(counter > 1000){
-			LOG::LOG(hand);
+			LOG::HLOG(hand);
 			break;
 		}
 
 		long VALUE = RCTimer(setup, hand.finger[3].GPIOPIN);
 		cout << "| 4 |\t| " << hand.finger[3].GPIOPIN << " |\t| " << VALUE << " |\t| " << VALUE/15 << " |" << endl;
-		LOG::LOG(hand);
+		LOG::HHLOG(hand);
 		usleep(1000*50);
-		LOG::HLOG(hand);
 		counter++;
 	}
-	LOG::LOG(hand);
-	// clean-up
-	delete 	val;
-	delete 	setup;
+	LOG::HHLOG(hand);
 	
 	cout << "PROGRAM ENDED WITH CLEANUP" << endl;
-	LOG::LOG(hand);
+	LOG::HHLOG(hand);
 	return 0;
 }
 /* -------------------------------------------------------------OUR WORK END---------------------------------------------------------------------- */
