@@ -249,9 +249,9 @@ int main(int argc, char* argv[]){
 			break;
 		}
 
-		long VALUE1 = RCTimer(setup, hand.finger[0].GPIOPIN);
-		long VALUE2 = RCTimer(setup, hand.finger[1].GPIOPIN);
-		long VALUE3 = RCTimer(setup, hand.finger[2].GPIOPIN);
+		long VALUE1 = 0;//RCTimer(setup, hand.finger[0].GPIOPIN);
+		long VALUE2 = 0;//RCTimer(setup, hand.finger[1].GPIOPIN);
+		long VALUE3 = 0;//RCTimer(setup, hand.finger[2].GPIOPIN);
 		long VALUE4 = RCTimer(setup, hand.finger[3].GPIOPIN);
 		long VALUE5 = RCTimer(setup, hand.finger[4].GPIOPIN);
 
