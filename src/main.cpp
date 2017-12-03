@@ -7,8 +7,8 @@
 #include <sstream>
 #include <iostream>
 
-#include "statistics.h"
-#include "logging.h"
+//#include "statistics.h"
+//#include "logging.h"
 
 using namespace std;
 
@@ -178,9 +178,11 @@ long RCTimer(gpioSetup* setup, int PIN){
 		//Read the RCTime value
 		setup->cmd 		= GPIO_CMD_READ;
 		strcpy(setup->cmdString, FASTGPIO_CMD_STRING_READ);
+
 		while(gpioRun(setup)){
 			result++;
 		}
+
 		return result;
 }
 
@@ -210,7 +212,7 @@ int main(int argc, char* argv[]){
 	HAND hand = {0};
    	hand.hand = 1;
 	hand.finger = new FINGER[5];
-	LOG::HLOG(hand);
+	//LOG::HLOG(hand);
     /*
         GPIO Pins:
         Thumb:finger[0]: 1
@@ -224,11 +226,11 @@ int main(int argc, char* argv[]){
     hand.finger[2].GPIOPIN = 3;
     hand.finger[3].GPIOPIN = 19;
 	hand.finger[4].GPIOPIN = 18;
-	LOG::HLOG(hand);
+	//LOG::HLOG(hand);
 
     for(int i = 0; i < 5; i++){
 		hand.finger[i].VALUE=0;
-		LOG::HLOG(hand);
+		//LOG::HLOG(hand);
 	}
 
 	/*if(argc < 2){
@@ -239,7 +241,7 @@ int main(int argc, char* argv[]){
 
 	// check for any pwm processes already running on this pin
 	status = checkOldProcess(setup);
-	LOG::HLOG(hand);
+	//LOG::HLOG(hand);
 	int counter = 0;
 
 	int dataSize = 1000;
@@ -263,7 +265,7 @@ int main(int argc, char* argv[]){
 
 		// do we need to keep this with the sliding-window statistics?
 		if(counter > 1000){
-			LOG::HLOG(hand);
+			//LOG::HLOG(hand);
 			break;
 		}
 
@@ -271,6 +273,7 @@ int main(int argc, char* argv[]){
 		long VALUE2 = 0;//RCTimer(setup, hand.finger[1].GPIOPIN);
 		long VALUE3 = 0;//RCTimer(setup, hand.finger[2].GPIOPIN);
 		long VALUE4 = RCTimer(setup, hand.finger[3].GPIOPIN);
+		usleep(1000*50);
 		long VALUE5 = RCTimer(setup, hand.finger[4].GPIOPIN);
 
 		// f1data[counter%dataSize]=VALUE1;
@@ -283,15 +286,15 @@ int main(int argc, char* argv[]){
 		cout << "| " << VALUE1 << " |\t| " << VALUE2 << " |\t| " << VALUE3 << " |\t| " << VALUE4 << " |\t| " << VALUE5 << " |";
 		
 		//cout << "| 4 |\t| " << hand.finger[3].GPIOPIN << " |\t| " << VALUE << " |\t| " << VALUE/15 << " |" << endl;
-		LOG::HLOG(hand);
+		//LOG::HLOG(hand);
 		usleep(1000*250);
 
 		counter++;
 	}
-	LOG::HLOG(hand);
+	//LOG::HLOG(hand);
 	
 	cout << "PROGRAM ENDED WITH CLEANUP" << endl;
-	LOG::HLOG(hand);
+	//LOG::HLOG(hand);
 	return 0;
 }
 /* -------------------------------------------------------------OUR WORK END---------------------------------------------------------------------- */
