@@ -242,8 +242,26 @@ int main(int argc, char* argv[]){
 	LOG::HLOG(hand);
 	int counter = 0;
 
+	int dataSize = 1000;
+
+	long* f1data = new long[dataSize];
+	long* f2data = new long[dataSize];
+	long* f3data = new long[dataSize];
+	long* f4data = new long[dataSize];
+	long* f5data = new long[dataSize];
+
+	for (int i = 0 ; i < dataSize ; I++ )
+	{
+		f1data[i]=0;
+		f2data[i]=0;
+		f3data[i]=0;
+		f4data[i]=0;
+		f5data[i]=0;
+	}
+
 	while(true){
 
+		// do we need to keep this with the sliding-window statistics?
 		if(counter > 1000){
 			LOG::HLOG(hand);
 			break;
@@ -254,6 +272,12 @@ int main(int argc, char* argv[]){
 		long VALUE3 = 0;//RCTimer(setup, hand.finger[2].GPIOPIN);
 		long VALUE4 = RCTimer(setup, hand.finger[3].GPIOPIN);
 		long VALUE5 = RCTimer(setup, hand.finger[4].GPIOPIN);
+
+		// f1data[counter%dataSize]=VALUE1;
+		// f2data[counter%dataSize]=VALUE2;
+		// f3data[counter%dataSize]=VALUE3;
+		f4data[counter%dataSize]=VALUE4;
+		f5data[counter%dataSize]=VALUE5;
 
 		cout << "| FINGER 1 |\t| FINGER 2 |\t| FINGER 3 |\t| FINGER 4 |\t| FINGER 5 |";
 		cout << "| " << VALUE1 << " |\t| " << VALUE2 << " |\t| " << VALUE3 << " |\t| " << VALUE4 << " |\t| " << VALUE5 << " |";
