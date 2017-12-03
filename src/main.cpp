@@ -178,9 +178,11 @@ long RCTimer(gpioSetup* setup, int PIN){
 		//Read the RCTime value
 		setup->cmd 		= GPIO_CMD_READ;
 		strcpy(setup->cmdString, FASTGPIO_CMD_STRING_READ);
+
 		while(gpioRun(setup)){
 			result++;
 		}
+
 		return result;
 }
 
@@ -253,10 +255,11 @@ int main(int argc, char* argv[]){
 		long VALUE2 = 0;//RCTimer(setup, hand.finger[1].GPIOPIN);
 		long VALUE3 = 0;//RCTimer(setup, hand.finger[2].GPIOPIN);
 		long VALUE4 = RCTimer(setup, hand.finger[3].GPIOPIN);
+		usleep(1000*50);
 		long VALUE5 = RCTimer(setup, hand.finger[4].GPIOPIN);
 
-		cout << "| FINGER 1 |\t| FINGER 2 |\t| FINGER 3 |\t| FINGER 4 |\t| FINGER 5 |";
-		cout << "| " << VALUE1 << " |\t| " << VALUE2 << " |\t| " << VALUE3 << " |\t| " << VALUE4 << " |\t| " << VALUE5 << " |";
+		cout << "| FINGER 1 |\t| FINGER 2 |\t| FINGER 3 |\t| FINGER 4 |\t| FINGER 5 |" << endl;
+		cout << "| " << VALUE1 << " |\t| " << VALUE2 << " |\t| " << VALUE3 << " |\t| " << VALUE4 << " |\t| " << VALUE5 << " |" << endl;
 		
 		//cout << "| 4 |\t| " << hand.finger[3].GPIOPIN << " |\t| " << VALUE << " |\t| " << VALUE/15 << " |" << endl;
 		LOG::HLOG(hand);
