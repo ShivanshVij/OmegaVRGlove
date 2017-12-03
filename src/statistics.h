@@ -20,6 +20,9 @@ struct Stats{
         long maximum;
         float popStdDev;
         float sampleStdDev;
+        long* dataset = new long[1000];
+        for (int i = 0 ; i < 1000 ; i++)
+            dataset[i]=0;
 };
 
 class STATS{
@@ -69,7 +72,6 @@ float STATS::average(const long dataset[], const int size) {
     float avrg = total/(float)size;
     return avrg;   
 }
-
 
 long STATS::maximum(const long dataset[], const int size) {
     
@@ -160,7 +162,16 @@ bool STATS::selection(long dataset[], const int size){
     return selection(dataset, size-1);
 }
 
-bool STATS::STATISTICS(long dataset[], const int size){
+bool STATS::STATISTICS(Stats stats, const int size){
+    
+    stats.minimum = minimum(stats.dataset, size);
+    stats.average = average(stats.dataset, size);
+    stats.maximum = maximum(stats.dataset, size);
+    stats.popStdDev = popStdDev(stats.dataset, size);
+    stats.sampleStdDev = smplStdDev(stats.dataset, size);
+
+    LOG::SLOG(stats, "STATS::STATISTICS");
+
     return false;
 }
 

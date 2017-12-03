@@ -12,7 +12,7 @@
 
 using namespace std;
 
-struct Stats ;
+// struct Stats ;
 
 /* -------------------------------------------------------------OUR WORK END---------------------------------------------------------------------- */
 //Sets up the gpioSetup object
@@ -212,6 +212,13 @@ int main(int argc, char* argv[]){
 	HAND hand = {0};
    	hand.hand = 1;
 	hand.finger = new FINGER[5];
+	Stats FINGER1 = new Stats;
+	Stats FINGER2 = new Stats;
+	Stats FINGER3 = new Stats;
+	Stats FINGER4 = new Stats;
+	Stats FINGER5 = new Stats;
+	int statsStructSize = 1;
+
 	//LOG::HLOG(hand);
     /*
         GPIO Pins:
@@ -244,43 +251,34 @@ int main(int argc, char* argv[]){
 	//LOG::HLOG(hand);
 	int counter = 0;
 
-	int dataSize = 1000;
-
-	long* f1data = new long[dataSize];
-	long* f2data = new long[dataSize];
-	long* f3data = new long[dataSize];
-	long* f4data = new long[dataSize];
-	long* f5data = new long[dataSize];
-
-	for (int i = 0 ; i < dataSize ; I++ )
-	{
-		f1data[i]=0;
-		f2data[i]=0;
-		f3data[i]=0;
-		f4data[i]=0;
-		f5data[i]=0;
-	}
-
 	while(true){
 
-		// do we need to keep this with the sliding-window statistics?
-		if(counter > 1000){
+		if(counter >= 1000){
 			//LOG::HLOG(hand);
-			break;
+			// break;
+			counter=0; // reset for sliding window stats
 		}
+
+		statsStructSize = (statsStructSize<=1000)?statsStructSize:1000;
 
 		long VALUE1 = 0;//RCTimer(setup, hand.finger[0].GPIOPIN);
 		long VALUE2 = 0;//RCTimer(setup, hand.finger[1].GPIOPIN);
 		long VALUE3 = 0;//RCTimer(setup, hand.finger[2].GPIOPIN);
 		long VALUE4 = RCTimer(setup, hand.finger[3].GPIOPIN);
-		usleep(1000*50);
 		long VALUE5 = RCTimer(setup, hand.finger[4].GPIOPIN);
+		usleep(1000*50);
 
-		// f1data[counter%dataSize]=VALUE1;
-		// f2data[counter%dataSize]=VALUE2;
-		// f3data[counter%dataSize]=VALUE3;
-		f4data[counter%dataSize]=VALUE4;
-		f5data[counter%dataSize]=VALUE5;
+		// FINGER1.dataset[counter] = VALUE1;
+		// FINGER2.dataset[counter] = VALUE2;
+		// FINGER3.dataset[counter] = VALUE3;
+		FINGER4.dataset[counter] = VALUE4;
+		FINGER5.dataset[counter] = VALUE5;
+
+		// STATS::STATISTICS(FINGER1, statsStructSize);
+		// STATS::STATISTICS(FINGER2, statsStructSize);
+		// STATS::STATISTICS(FINGER3, statsStructSize);
+		STATS::STATISTICS(FINGER4, statsStructSize);
+		STATS::STATISTICS(FINGER5, statsStructSize);
 
 		cout << "| FINGER 1 |\t| FINGER 2 |\t| FINGER 3 |\t| FINGER 4 |\t| FINGER 5 |";
 		cout << "| " << VALUE1 << " |\t| " << VALUE2 << " |\t| " << VALUE3 << " |\t| " << VALUE4 << " |\t| " << VALUE5 << " |";
@@ -290,6 +288,7 @@ int main(int argc, char* argv[]){
 		usleep(1000*250);
 
 		counter++;
+		statsStructSize++;
 	}
 	//LOG::HLOG(hand);
 	
