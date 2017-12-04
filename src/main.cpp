@@ -304,11 +304,11 @@ int main(int argc, char* argv[]){
 		FINGER4.dataset[counter] = VALUE4;
 		FINGER5.dataset[counter] = VALUE5;
 
-		// STATS::STATISTICS(FINGER1, statsStructSize);
-		// STATS::STATISTICS(FINGER2, statsStructSize);
-		// STATS::STATISTICS(FINGER3, statsStructSize);
-		STATS::STATISTICS(FINGER4, statsStructSize);
-		STATS::STATISTICS(FINGER5, statsStructSize);
+		// STATS::STATISTICS(*FINGER1, statsStructSize);
+		// STATS::STATISTICS(*FINGER2, statsStructSize);
+		// STATS::STATISTICS(*FINGER3, statsStructSize);
+		STATS::STATISTICS(*FINGER4, statsStructSize);
+		STATS::STATISTICS(*FINGER5, statsStructSize);
 
 		cout << "| FINGER 1 |\t| FINGER 2 |\t| FINGER 3 |\t| FINGER 4 |\t| FINGER 5 |";
 		cout << "| " << VALUE1 << " |\t\t| " << VALUE2 << " |\t\t| " << VALUE3 << " |\t\t| " << VALUE4 << " |\t\t| " << VALUE5 << " |";
