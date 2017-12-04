@@ -6,8 +6,10 @@
 #include <string>
 #include <sstream>
 #include <iostream>
-
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
+#include <cmath>
 #include "logging.h"
 #include "statistics.h"
 
@@ -18,6 +20,8 @@ struct FINGER ;
 struct HAND ;
 
 struct Stats ;
+
+extern int RequestedVerbosity;
 
 /* -------------------------------------------------------------OUR WORK END---------------------------------------------------------------------- */
 //Sets up the gpioSetup object
@@ -163,7 +167,7 @@ long RCTimer(HAND& hand, gpioSetup* setup, int PIN){
 		status = gpioRun(setup);
 
 		if(status != 0){
-			LOG::HLOG(hand, "RCTIMER", 1, 3, 166);
+			LOG::HLOG(hand, "RCTIMER", 1, RequestedVerbosity, 166);
 		}
 
 		usleep(500);
@@ -175,7 +179,7 @@ long RCTimer(HAND& hand, gpioSetup* setup, int PIN){
 		status = gpioRun(setup);
 
 		if(status == 0){
-			LOG::HLOG(hand, "RCTIMER", 1, 3, 180);
+			LOG::HLOG(hand, "RCTIMER", 1, RequestedVerbosity, 180);
 		}
 
 		usleep(500);
@@ -187,7 +191,7 @@ long RCTimer(HAND& hand, gpioSetup* setup, int PIN){
 		status = gpioRun(setup);
 
 		if(status != 0){
-			LOG::HLOG(hand, "RCTIMER", 1, 3, 190);
+			LOG::HLOG(hand, "RCTIMER", 1, RequestedVerbosity, 190);
 		}
 
 		usleep(500);
@@ -200,7 +204,7 @@ long RCTimer(HAND& hand, gpioSetup* setup, int PIN){
 			result++;
 
 			if(result > 10000){
-				LOG::HLOG(hand, "RCTIMER", 1, 5, 203);
+				LOG::HLOG(hand, "RCTIMER", 1, RequestedVerbosity, 203);
 				break;
 			}
 		}
@@ -230,6 +234,13 @@ int main(int argc, char* argv[]){
 	argc 	-= optind;
 	argv	+= optind;
 
+	if(argc > 1){
+		RequestedVerbosity = atoi(argv[1]);
+	}
+	else{
+		RequestedVerbosity = 1;
+	}
+	
 
 	HAND hand = {0};
    	hand.hand = 1;
@@ -284,26 +295,26 @@ int main(int argc, char* argv[]){
 
 		if(counter == 1000){
 			LOG::HLOG(hand, "main", 0, 1, 279);
-			LOG::SLOG(FINGER2STATS, "STATS::STATISTICS from main", 0, 1, 287);
-			LOG::SLOG(FINGER3STATS, "STATS::STATISTICS from main", 0, 1, 288);
-			LOG::SLOG(FINGER4STATS, "STATS::STATISTICS from main", 0, 1, 289);
-			LOG::SLOG(FINGER5STATS, "STATS::STATISTICS from main", 0, 1, 290);
+			LOG::SLOG(FINGER2STATS, "STATS::STATISTICS from main", 0, RequestedVerbosity, 287);
+			LOG::SLOG(FINGER3STATS, "STATS::STATISTICS from main", 0, RequestedVerbosity, 288);
+			LOG::SLOG(FINGER4STATS, "STATS::STATISTICS from main", 0, RequestedVerbosity, 289);
+			LOG::SLOG(FINGER5STATS, "STATS::STATISTICS from main", 0, RequestedVerbosity, 290);
 			// break;
 			counter=0; // reset for sliding window stats
 		}
 
 		if(counter%50 == 0){
 			LOG::HLOG(hand, "main", 0, 1, 285);
-			LOG::SLOG(FINGER2STATS, "STATS::STATISTICS from main", 0, 1, 297);
-			LOG::SLOG(FINGER3STATS, "STATS::STATISTICS from main", 0, 1, 298);
-			LOG::SLOG(FINGER4STATS, "STATS::STATISTICS from main", 0, 1, 299);
-			LOG::SLOG(FINGER5STATS, "STATS::STATISTICS from main", 0, 1, 300);
+			LOG::SLOG(FINGER2STATS, "STATS::STATISTICS from main", 0, RequestedVerbosity, 297);
+			LOG::SLOG(FINGER3STATS, "STATS::STATISTICS from main", 0, RequestedVerbosity, 298);
+			LOG::SLOG(FINGER4STATS, "STATS::STATISTICS from main", 0, RequestedVerbosity, 299);
+			LOG::SLOG(FINGER5STATS, "STATS::STATISTICS from main", 0, RequestedVerbosity, 300);
 		}
 
 		
 
 		long VALUE1 = 0;//RCTimer(setup, hand.finger[0].GPIOPIN);
-		//usleep(1000*75);
+		//usleep(1000*100);
 		long VALUE2 = RCTimer(hand, setup, hand.finger[1].GPIOPIN);
 		usleep(1000*100);
 		long VALUE3 = RCTimer(hand, setup, hand.finger[2].GPIOPIN);
