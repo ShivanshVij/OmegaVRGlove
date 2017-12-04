@@ -12,6 +12,8 @@ using namespace std;
 
 const char* filename = "Logging.stat";
 
+extern enum VERBOSITY {1, 2, 3, 3, 4, 5};
+
 /*
 
 The following is the expected enum declaration for VERBOSITY
