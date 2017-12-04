@@ -200,7 +200,8 @@ long RCTimer(HAND& hand, gpioSetup* setup, int PIN){
 			result++;
 
 			if(result > 10000){
-				LOG::HLOG(hand, "RCTIMER", 1, 3, 203);
+				LOG::HLOG(hand, "RCTIMER", 1, 5, 203);
+				break;
 			}
 		}
 
@@ -289,7 +290,7 @@ int main(int argc, char* argv[]){
 			counter=0; // reset for sliding window stats
 		}
 
-		if(counter == 250 || counter == 500 || counter == 750){
+		if(counter%50 == 0){
 			LOG::HLOG(hand, "main", 0, 1, 285);
 			LOG::SLOG(FINGER4STATS, "STATS::STATISTICS from main", 0, 1, 294);
 			LOG::SLOG(FINGER5STATS, "STATS::STATISTICS from main", 0, 1, 295);
@@ -298,15 +299,15 @@ int main(int argc, char* argv[]){
 		
 
 		long VALUE1 = 0;//RCTimer(setup, hand.finger[0].GPIOPIN);
-		//usleep(1000*50);
+		//usleep(1000*100);
 		long VALUE2 = 0;//RCTimer(setup, hand.finger[1].GPIOPIN);
-		//usleep(1000*50);
-		long VALUE3 = 0;//RCTimer(setup, hand.finger[2].GPIOPIN);
-		//usleep(1000*50);
+		//usleep(1000*100);
+		long VALUE3 = RCTimer(hand, setup, hand.finger[2].GPIOPIN);
+		usleep(1000*100);
 		long VALUE4 = RCTimer(hand, setup, hand.finger[3].GPIOPIN);
-		usleep(1000*80);
+		usleep(1000*100);
 		long VALUE5 = RCTimer(hand, setup, hand.finger[4].GPIOPIN);
-		usleep(1000*80);
+		usleep(1000*100);
 
 		// FINGER1STATS.dataset[counter] = VALUE1;
 		// FINGER2STATS.dataset[counter] = VALUE2;
