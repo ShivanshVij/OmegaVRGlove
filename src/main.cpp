@@ -285,7 +285,7 @@ int main(int argc, char* argv[]){
 			counter=0; // reset for sliding window stats
 		}
 
-		statsStructSize = (statsStructSize<=1000)?statsStructSize:1000;
+		
 
 		long VALUE1 = 0;//RCTimer(setup, hand.finger[0].GPIOPIN);
 		//usleep(1000*50);
@@ -317,7 +317,9 @@ int main(int argc, char* argv[]){
 		usleep(1000*250);
 
 		counter++;
-		statsStructSize++;
+		if(statsStructSize < 1000){
+			statsStructSize++;
+		}
 	}
 	//LOG::HLOG(hand);
 	
