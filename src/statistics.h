@@ -162,11 +162,11 @@ bool STATS::selection(long dataset[], const int size){
 
 bool STATS::STATISTICS(Stats& stats, const int size){
     
-    stats.minimum = minimum(stats.dataset[], size);
-    stats.average = average(stats.dataset[], size);
-    stats.maximum = maximum(stats.dataset[], size);
-    stats.popStdDev = popStdDev(stats.dataset[], size);
-    stats.sampleStdDev = smplStdDev(stats.dataset[], size);
+    stats.minimum = minimum(*(stats.dataset), size);
+    stats.average = average(stats.dataset, size);
+    stats.maximum = maximum(stats.dataset, size);
+    stats.popStdDev = popStdDev(stats.dataset, size);
+    stats.sampleStdDev = smplStdDev(stats.dataset, size);
 
     //LOG::SLOG(stats, "STATS::STATISTICS");
 
