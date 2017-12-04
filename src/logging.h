@@ -53,58 +53,58 @@ class LOG {
 
 public:
 
-    static bool HLOG(HAND& object, int status, int VERBOSITY, const char functionName[], int lineNumber);
-    static bool SLOG(Stats& object, int status, int VERBOSITY, const char functionName[], int lineNumber);
+    static bool HLOG(HAND& object, const char functionName[], int status, int VERBOSITY, int lineNumber);
+    static bool SLOG(Stats& object, const char functionName[], int status, int VERBOSITY, int lineNumber);
 
 private:
 
-    static bool HANDLOG(HAND& object, int VERBOSITY, const char functionName[], int lineNumber);
-    static bool STATSLOG(Stats& object, int VERBOSITY, const char functionName[], int lineNumber);
-    static bool HERROR(HAND& object, int VERBOSITY, const char functionName[], int lineNumber);
-    static bool SERROR(Stats& object, int VERBOSITY, const char functionName[], int lineNumber);
+    static bool HANDLOG(HAND& object, const char functionName[], int VERBOSITY, int lineNumber);
+    static bool STATSLOG(Stats& object, const char functionName[], int VERBOSITY, int lineNumber);
+    static bool HERROR(HAND& object, const char functionName[], int VERBOSITY, int lineNumber);
+    static bool SERROR(Stats& object, const char functionName[], int VERBOSITY, int lineNumber);
 
 };
 
-bool LOG::HLOG(HAND& object, int status=0, int VERBOSITY = 1, const char functionName[], int lineNumber=0){
+bool LOG::HLOG(HAND& object, const char functionName[], int status=0, int VERBOSITY = 1, int lineNumber=0){
 
     if (status!=0){
 
-        LOG::HERROR(object, VERBOSITY, functionName, lineNumber);
+        LOG::HERROR(object, functionName, VERBOSITY, lineNumber);
         return true;
 
     }
     else{
 
-        LOG::HANDLOG(object, VERBOSITY,functionName, lineNumber);
+        LOG::HANDLOG(object, functionName, VERBOSITY, lineNumber);
         return true;
 
     }
 }
 
-bool LOG::SLOG(Stats& object, int status=0, int VERBOSITY = 1, const char functionName[], int lineNumber=0){
+bool LOG::SLOG(Stats& object, const char functionName[], int status=0, int VERBOSITY = 1, int lineNumber=0){
 
     if (status!=0){
 
-        LOG::SERROR(object, VERBOSITY,functionName, lineNumber);
+        LOG::SERROR(object, functionName, VERBOSITY, lineNumber);
         return true;
 
     }
     else{
 
-        LOG::STATSLOG(object, VERBOSITY, functionName, lineNumber);
+        LOG::STATSLOG(object, functionName, VERBOSITY, lineNumber);
         return true;
 
     }
 }
 
 
-bool LOG::HANDLOG(HAND& hand, int VERBOSITY = 1, const char functionName[], int lineNumber=0){
+bool LOG::HANDLOG(HAND& hand, const char functionName[], int VERBOSITY = 1, int lineNumber=0){
 
     ofstream outfile;
     outfile.open(filename,ios_base::app);
 
     if(!outfile.is_open())
-    return LOG::HERROR(hand,functionName, lineNumber);
+    return LOG::HERROR(hand, functionName, VERBOSITY, lineNumber);
 
 	switch (VERBOSITY){
 		case 1:
@@ -112,15 +112,15 @@ bool LOG::HANDLOG(HAND& hand, int VERBOSITY = 1, const char functionName[], int 
 		case 2:
 			break;
 		case 3:
-			outfile<<"Logged from "<<functionName<<endl;
+			outfile<<"Logged from "<<functionName <<endl;
 			break;
 		case 4:
-			outfile<<"Logged from "<<functionName<<endl;
-			outfile<<"Line: "<<lineNumber<<endl;
+			outfile<<"Logged from "<< functionName <<endl;
+			outfile<<"Line: "<< lineNumber <<endl;
 			break;
 		case 5:
-			outfile<<"Logged from "<<functionName<<endl;
-			outfile<<"Line: "<<lineNumber<<endl;
+			outfile<<"Logged from "<< functionName << endl;
+			outfile<<"Line: "<< lineNumber << endl;
 			break;
 
 	}
@@ -204,18 +204,18 @@ bool LOG::HANDLOG(HAND& hand, int VERBOSITY = 1, const char functionName[], int 
     return true;
 }
 
-bool LOG::STATSLOG(Stats& stats, int VERBOSITY = 1, const char functionName[], int lineNumber=0){
+bool LOG::STATSLOG(Stats& stats, const char functionName[], int VERBOSITY = 1, int lineNumber=0){
 
     int s=0;
     ofstream outfile;
     outfile.open(filename,ios_base::app);
 
     if(!outfile.is_open())
-    return LOG::SERROR(stats,functionName, lineNumber);   
+    return LOG::SERROR(stats, functionName, VERBOSITY, lineNumber);   
 
     if (stats.minimum<0 || stats.maximum<0 || stats.average<0){
         
-        return LOG::SERROR(stats,functionName, lineNumber);
+        return LOG::SERROR(stats, functionName, VERBOSITY, lineNumber);
     }
 
 	
@@ -258,7 +258,7 @@ bool LOG::STATSLOG(Stats& stats, int VERBOSITY = 1, const char functionName[], i
 
 }
 
-bool LOG::HERROR(HAND& hand, int VERBOSITY = 1, const char functionName[], int lineNumber=0){
+bool LOG::HERROR(HAND& hand, const char functionName[], int VERBOSITY = 1, int lineNumber=0){
 
     int s=0;
     ofstream outfile;
@@ -308,7 +308,7 @@ bool LOG::HERROR(HAND& hand, int VERBOSITY = 1, const char functionName[], int l
 }
 
 
-bool LOG::SERROR(Stats& stats, int VERBOSITY = 1, const char functionName[], int lineNumber=0){
+bool LOG::SERROR(Stats& stats, const char functionName[], int VERBOSITY = 1, int lineNumber=0){
 
     int s=0;
     ofstream outfile;
