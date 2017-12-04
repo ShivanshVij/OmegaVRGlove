@@ -298,17 +298,17 @@ int main(int argc, char* argv[]){
 		long VALUE5 = RCTimer(setup, hand.finger[4].GPIOPIN);
 		usleep(1000*50);
 
-		// FINGER1.dataset[counter] = VALUE1;
-		// FINGER2.dataset[counter] = VALUE2;
-		// FINGER3.dataset[counter] = VALUE3;
-		FINGER4.dataset[counter] = VALUE4;
-		FINGER5.dataset[counter] = VALUE5;
+		// FINGER1STATS.dataset[counter] = VALUE1;
+		// FINGER2STATS.dataset[counter] = VALUE2;
+		// FINGER3STATS.dataset[counter] = VALUE3;
+		FINGER4STATS.dataset[counter] = VALUE4;
+		FINGER5STATS.dataset[counter] = VALUE5;
 
-		// STATS::STATISTICS(FINGER1, statsStructSize);
-		// STATS::STATISTICS(FINGER2, statsStructSize);
-		// STATS::STATISTICS(FINGER3, statsStructSize);
-		STATS::STATISTICS(FINGER4, statsStructSize);
-		STATS::STATISTICS(FINGER5, statsStructSize);
+		// STATS::STATISTICS(FINGER1STATS, statsStructSize);
+		// STATS::STATISTICS(FINGER2STATS, statsStructSize);
+		// STATS::STATISTICS(FINGER3STATS, statsStructSize);
+		STATS::STATISTICS(FINGER4STATS, statsStructSize);
+		STATS::STATISTICS(FINGER5STATS, statsStructSize);
 
 		cout << "| FINGER 1 |\t| FINGER 2 |\t| FINGER 3 |\t| FINGER 4 |\t| FINGER 5 |";
 		cout << "| " << VALUE1 << " |\t\t| " << VALUE2 << " |\t\t| " << VALUE3 << " |\t\t| " << VALUE4 << " |\t\t| " << VALUE5 << " |";
