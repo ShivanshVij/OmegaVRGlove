@@ -162,7 +162,9 @@ long RCTimer(gpioSetup* setup, int PIN){
 		setup->pinNumber = PIN;
 		status = gpioRun(setup);
 
-		cout << "STATUS1: " << status << endl;
+		if(status != 0){
+			LOG::HLOG(hand, "RCTIMER", 1, 3, 166);
+		}
 
 		usleep(500);
 
@@ -172,7 +174,9 @@ long RCTimer(gpioSetup* setup, int PIN){
 		setup->pinValue = 1;
 		status = gpioRun(setup);
 
-		cout << "STATUS2: " << status << endl;
+		if(status == 0){
+			LOG::HLOG(hand, "RCTIMER", 1, 3, 180);
+		}
 
 		usleep(500);
 
@@ -182,7 +186,9 @@ long RCTimer(gpioSetup* setup, int PIN){
 		strcpy(setup->cmdString, FASTGPIO_CMD_STRING_SET_DIR);
 		status = gpioRun(setup);
 
-		cout << "STATUS3: " << status << endl;
+		if(status != 0){
+			LOG::HLOG(hand, "RCTIMER", 1, 3, 190);
+		}
 
 		usleep(500);
 
@@ -192,6 +198,10 @@ long RCTimer(gpioSetup* setup, int PIN){
 
 		while(gpioRun(setup)){
 			result++;
+
+			if(result > 10000){
+				LOG::HLOG(hand, "RCTIMER", 1, 3, 203);
+			}
 		}
 
 		return result;
@@ -272,9 +282,13 @@ int main(int argc, char* argv[]){
 	while(true){
 
 		if(counter == 1000){
-			//LOG::HLOG(hand);
+			LOG::HLOG(hand, "main", 0, 1, 279);
 			// break;
 			counter=0; // reset for sliding window stats
+		}
+
+		if(counter == 250 || counter == 500 || counter == 750){
+			LOG::HLOG(hand, "main", 0, 1, 285);
 		}
 
 		
@@ -305,7 +319,7 @@ int main(int argc, char* argv[]){
 		cout << "| FINGER 1 |\t| FINGER 2 |\t| FINGER 3 |\t| FINGER 4 |\t| FINGER 5 |" << endl;
 		cout << "| " << VALUE1 << " |\t\t| " << VALUE2 << " |\t\t| " << VALUE3 << " |\t\t| " << VALUE4 << " |\t\t| " << VALUE5 << " |" << endl;
 		
-		LOG::HLOG(hand, "main", 0, 1, 302);
+		
 		usleep(1000*250);
 
 		counter++;

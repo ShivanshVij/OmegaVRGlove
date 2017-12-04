@@ -170,7 +170,7 @@ bool STATS::STATISTICS(Stats& stats, const int size){
     stats.popStdDev = popStdDev(stats.dataset, size);
     stats.sampleStdDev = smplStdDev(stats.dataset, size);
 
-    //LOG::SLOG(stats, "STATS::STATISTICS");
+    LOG::SLOG(stats, "STATS::STATISTICS", 0, 2, 173);
     ofstream statsfile;
     statsfile.open("STATISTICS.txt");
 
