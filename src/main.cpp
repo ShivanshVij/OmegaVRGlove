@@ -314,6 +314,7 @@ int main(int argc, char* argv[]){
 		// STATS::STATISTICS(FINGER2STATS, statsStructSize);
 		// STATS::STATISTICS(FINGER3STATS, statsStructSize);
 		STATS::STATISTICS(FINGER4STATS, statsStructSize);
+		LOG::SLOG(FINGER4STATS, "STATS::STATISTICS from main", 0, 2, 317);
 		STATS::STATISTICS(FINGER5STATS, statsStructSize);
 
 		cout << "| FINGER 1 |\t| FINGER 2 |\t| FINGER 3 |\t| FINGER 4 |\t| FINGER 5 |" << endl;
@@ -326,6 +327,7 @@ int main(int argc, char* argv[]){
 		if(statsStructSize < 1000){
 			statsStructSize++;
 		}
+		
 	}
 	//LOG::HLOG(hand);
 	
