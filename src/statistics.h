@@ -28,7 +28,7 @@ struct Stats{
 class STATS{
 
 public:
-    static bool STATISTICS(Stats& stats, const int size);
+    static bool STATISTICS(Stats& stats, const int size, const char fingername[]);
     static bool sort(long dataset[], const int size);
     static bool selection(long dataset[], const int size);
 
@@ -162,7 +162,7 @@ bool STATS::selection(long dataset[], const int size){
     return selection(dataset, size-1);
 }
 
-bool STATS::STATISTICS(Stats& stats, const int size){
+bool STATS::STATISTICS(Stats& stats, const int size, const char fingername[]){
     
     stats.minimum = minimum(stats.dataset, size);
     stats.average = average(stats.dataset, size);
@@ -171,7 +171,7 @@ bool STATS::STATISTICS(Stats& stats, const int size){
     stats.sampleStdDev = smplStdDev(stats.dataset, size);
 
     ofstream statsfile;
-    statsfile.open("STATISTICS.txt");
+    statsfile.open(fingername);
 
     statsfile << "Minimum: " << stats.minimum << endl;
 	statsfile << "Average: " << stats.average << endl;

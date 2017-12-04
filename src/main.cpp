@@ -284,22 +284,26 @@ int main(int argc, char* argv[]){
 
 		if(counter == 1000){
 			LOG::HLOG(hand, "main", 0, 1, 279);
-			LOG::SLOG(FINGER4STATS, "STATS::STATISTICS from main", 0, 1, 286);
-			LOG::SLOG(FINGER5STATS, "STATS::STATISTICS from main", 0, 1, 287);
+			LOG::SLOG(FINGER2STATS, "STATS::STATISTICS from main", 0, 1, 287);
+			LOG::SLOG(FINGER3STATS, "STATS::STATISTICS from main", 0, 1, 288);
+			LOG::SLOG(FINGER4STATS, "STATS::STATISTICS from main", 0, 1, 289);
+			LOG::SLOG(FINGER5STATS, "STATS::STATISTICS from main", 0, 1, 290);
 			// break;
 			counter=0; // reset for sliding window stats
 		}
 
 		if(counter%50 == 0){
 			LOG::HLOG(hand, "main", 0, 1, 285);
-			LOG::SLOG(FINGER4STATS, "STATS::STATISTICS from main", 0, 1, 294);
-			LOG::SLOG(FINGER5STATS, "STATS::STATISTICS from main", 0, 1, 295);
+			LOG::SLOG(FINGER2STATS, "STATS::STATISTICS from main", 0, 1, 297);
+			LOG::SLOG(FINGER3STATS, "STATS::STATISTICS from main", 0, 1, 298);
+			LOG::SLOG(FINGER4STATS, "STATS::STATISTICS from main", 0, 1, 299);
+			LOG::SLOG(FINGER5STATS, "STATS::STATISTICS from main", 0, 1, 300);
 		}
 
 		
 
 		long VALUE1 = 0;//RCTimer(setup, hand.finger[0].GPIOPIN);
-		//usleep(1000*100);
+		//usleep(1000*75);
 		long VALUE2 = RCTimer(hand, setup, hand.finger[1].GPIOPIN);
 		usleep(1000*100);
 		long VALUE3 = RCTimer(hand, setup, hand.finger[2].GPIOPIN);
@@ -316,10 +320,10 @@ int main(int argc, char* argv[]){
 		FINGER5STATS.dataset[counter] = VALUE5;
 
 		// STATS::STATISTICS(FINGER1STATS, statsStructSize);
-		STATS::STATISTICS(FINGER2STATS, statsStructSize);
-		STATS::STATISTICS(FINGER3STATS, statsStructSize);
-		STATS::STATISTICS(FINGER4STATS, statsStructSize);
-		STATS::STATISTICS(FINGER5STATS, statsStructSize);
+		STATS::STATISTICS(FINGER2STATS, statsStructSize, "FINGER2STATS.txt");
+		STATS::STATISTICS(FINGER3STATS, statsStructSize, "FINGER3STATS.txt");
+		STATS::STATISTICS(FINGER4STATS, statsStructSize, "FINGER4STATS.txt");
+		STATS::STATISTICS(FINGER5STATS, statsStructSize, "FINGER5STATS.txt");
 
 		cout << "| FINGER 1 |\t| FINGER 2 |\t| FINGER 3 |\t| FINGER 4 |\t| FINGER 5 |" << endl;
 		cout << "| " << VALUE1 << " |\t\t| " << VALUE2 << " |\t\t| " << VALUE3 << " |\t\t| " << VALUE4 << " |\t\t| " << VALUE5 << " |" << endl;
