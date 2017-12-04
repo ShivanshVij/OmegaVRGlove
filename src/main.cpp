@@ -21,7 +21,7 @@ struct HAND ;
 
 struct Stats ;
 
-extern int RequestedVerbosity;
+extern int RequestedVerbosity = 1;
 
 /* -------------------------------------------------------------OUR WORK END---------------------------------------------------------------------- */
 //Sets up the gpioSetup object
