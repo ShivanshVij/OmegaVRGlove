@@ -7,12 +7,31 @@
 #include <sstream>
 #include <iostream>
 
-//#include "statistics.h"
+#include "statistics.h"
 //#include "logging.h"
 
 using namespace std;
 
-// struct Stats ;
+
+struct FINGER {
+
+        int GPIOPIN;
+        int VALUE;
+
+};
+
+struct HAND {
+
+        int hand;
+        FINGER* finger;
+
+};
+
+
+
+
+
+struct Stats ;
 
 /* -------------------------------------------------------------OUR WORK END---------------------------------------------------------------------- */
 //Sets up the gpioSetup object
@@ -253,7 +272,7 @@ int main(int argc, char* argv[]){
 
 	while(true){
 
-		if(counter >= 1000){
+		if(counter == 1000){
 			//LOG::HLOG(hand);
 			// break;
 			counter=0; // reset for sliding window stats
@@ -262,9 +281,13 @@ int main(int argc, char* argv[]){
 		statsStructSize = (statsStructSize<=1000)?statsStructSize:1000;
 
 		long VALUE1 = 0;//RCTimer(setup, hand.finger[0].GPIOPIN);
+		//usleep(1000*50);
 		long VALUE2 = 0;//RCTimer(setup, hand.finger[1].GPIOPIN);
+		//usleep(1000*50);
 		long VALUE3 = 0;//RCTimer(setup, hand.finger[2].GPIOPIN);
+		//usleep(1000*50);
 		long VALUE4 = RCTimer(setup, hand.finger[3].GPIOPIN);
+		usleep(1000*50);
 		long VALUE5 = RCTimer(setup, hand.finger[4].GPIOPIN);
 		usleep(1000*50);
 
@@ -281,9 +304,8 @@ int main(int argc, char* argv[]){
 		STATS::STATISTICS(FINGER5, statsStructSize);
 
 		cout << "| FINGER 1 |\t| FINGER 2 |\t| FINGER 3 |\t| FINGER 4 |\t| FINGER 5 |";
-		cout << "| " << VALUE1 << " |\t| " << VALUE2 << " |\t| " << VALUE3 << " |\t| " << VALUE4 << " |\t| " << VALUE5 << " |";
+		cout << "| " << VALUE1 << " |\t\t| " << VALUE2 << " |\t\t| " << VALUE3 << " |\t\t| " << VALUE4 << " |\t\t| " << VALUE5 << " |";
 		
-		//cout << "| 4 |\t| " << hand.finger[3].GPIOPIN << " |\t| " << VALUE << " |\t| " << VALUE/15 << " |" << endl;
 		//LOG::HLOG(hand);
 		usleep(1000*250);
 
