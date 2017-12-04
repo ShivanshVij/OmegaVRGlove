@@ -7,8 +7,9 @@
 #include <sstream>
 #include <iostream>
 
-#include "statistics.h"
+
 #include "logging.h"
+#include "statistics.h"
 
 using namespace std;
 
@@ -161,6 +162,8 @@ long RCTimer(gpioSetup* setup, int PIN){
 		setup->pinNumber = PIN;
 		status = gpioRun(setup);
 
+		cout << "STATUS1: " << status << endl;
+
 		usleep(500);
 
 		//Set pin to high output
@@ -169,6 +172,8 @@ long RCTimer(gpioSetup* setup, int PIN){
 		setup->pinValue = 1;
 		status = gpioRun(setup);
 
+		cout << "STATUS2: " << status << endl;
+
 		usleep(500);
 
 		//Set pin to input
@@ -176,6 +181,8 @@ long RCTimer(gpioSetup* setup, int PIN){
 		setup->pinDir 	= 0;
 		strcpy(setup->cmdString, FASTGPIO_CMD_STRING_SET_DIR);
 		status = gpioRun(setup);
+
+		cout << "STATUS3: " << status << endl;
 
 		usleep(500);
 
@@ -298,7 +305,7 @@ int main(int argc, char* argv[]){
 		cout << "| FINGER 1 |\t| FINGER 2 |\t| FINGER 3 |\t| FINGER 4 |\t| FINGER 5 |" << endl;
 		cout << "| " << VALUE1 << " |\t\t| " << VALUE2 << " |\t\t| " << VALUE3 << " |\t\t| " << VALUE4 << " |\t\t| " << VALUE5 << " |" << endl;
 		
-		//LOG::HLOG(hand);
+		LOG::HLOG(hand, "main", 0, 1, 302);
 		usleep(1000*250);
 
 		counter++;

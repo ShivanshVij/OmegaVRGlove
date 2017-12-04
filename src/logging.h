@@ -269,7 +269,7 @@ bool LOG::HERROR(HAND& hand, const char functionName[], int VERBOSITY = 1, int l
         return false;   
     }
 
-	swtich (VERBOSITY){
+	switch (VERBOSITY){
 		case 1:
 			return true;
 			break;
@@ -320,7 +320,7 @@ bool LOG::SERROR(Stats& stats, const char functionName[], int VERBOSITY = 1, int
     }
 
 
-	swtich (VERBOSITY){
+	switch (VERBOSITY){
 		case 1:
 			return true;
 			break;
