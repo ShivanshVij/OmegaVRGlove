@@ -58,10 +58,10 @@ public:
 
 private:
 
-    static bool HANDLOG(HAND& object, const char functionName[], int VERBOSITY, int lineNumber);
-    static bool STATSLOG(Stats& object, const char functionName[], int VERBOSITY, int lineNumber);
-    static bool HERROR(HAND& object, const char functionName[], int VERBOSITY, int lineNumber);
-    static bool SERROR(Stats& object, const char functionName[], int VERBOSITY, int lineNumber);
+    static bool HANDLOG(HAND& hand, const char functionName[], int VERBOSITY, int lineNumber);
+    static bool STATSLOG(Stats& stats, const char functionName[], int VERBOSITY, int lineNumber);
+    static bool HERROR(HAND& hand, const char functionName[], int VERBOSITY, int lineNumber);
+    static bool SERROR(Stats& stats, const char functionName[], int VERBOSITY, int lineNumber);
 
 };
 
