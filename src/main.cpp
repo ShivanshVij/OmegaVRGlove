@@ -259,7 +259,7 @@ int main(int argc, char* argv[]){
     */
     hand.finger[0].GPIOPIN = 1;
     hand.finger[1].GPIOPIN = 2;
-    hand.finger[2].GPIOPIN = 3;
+    hand.finger[2].GPIOPIN = 11;
     hand.finger[3].GPIOPIN = 19;
 	hand.finger[4].GPIOPIN = 18;
 	//LOG::HLOG(hand);
