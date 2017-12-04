@@ -28,9 +28,6 @@ struct HAND {
 };
 
 
-
-
-
 struct Stats ;
 
 /* -------------------------------------------------------------OUR WORK END---------------------------------------------------------------------- */
@@ -294,9 +291,9 @@ int main(int argc, char* argv[]){
 		long VALUE3 = 0;//RCTimer(setup, hand.finger[2].GPIOPIN);
 		//usleep(1000*50);
 		long VALUE4 = RCTimer(setup, hand.finger[3].GPIOPIN);
-		usleep(1000*50);
+		usleep(1000*80);
 		long VALUE5 = RCTimer(setup, hand.finger[4].GPIOPIN);
-		usleep(1000*50);
+		usleep(1000*80);
 
 		// FINGER1STATS.dataset[counter] = VALUE1;
 		// FINGER2STATS.dataset[counter] = VALUE2;

@@ -12,6 +12,7 @@
 #include <cmath>
 #include <limits>
 
+#include "logging.h"
 
 using namespace std;
 
