@@ -8,25 +8,9 @@
 #include <iostream>
 
 #include "statistics.h"
-//#include "logging.h"
+#include "logging.h"
 
 using namespace std;
-
-
-struct FINGER {
-
-        int GPIOPIN;
-        int VALUE;
-
-};
-
-struct HAND {
-
-        int hand;
-        FINGER* finger;
-
-};
-
 
 struct Stats ;
 
