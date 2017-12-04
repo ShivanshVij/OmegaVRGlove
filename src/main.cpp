@@ -231,17 +231,17 @@ int main(int argc, char* argv[]){
 	HAND hand = {0};
    	hand.hand = 1;
 	hand.finger = new FINGER[5];
-	Stats FINGER1 = new Stats;
-	Stats FINGER2 = new Stats;
-	Stats FINGER3 = new Stats;
-	Stats FINGER4 = new Stats;
-	Stats FINGER5 = new Stats;
+	Stats FINGER1STATS = {0};
+	Stats FINGER2STATS = {0};
+	Stats FINGER3STATS = {0};
+	Stats FINGER4STATS = {0};
+	Stats FINGER5STATS = {0};
 	for(int i = 0; i < 1000; i++){
-		FINGER1.dataset[i] = 0;
-		FINGER2.dataset[i] = 0;
-		FINGER3.dataset[i] = 0;
-		FINGER4.dataset[i] = 0;
-		FINGER5.dataset[i] = 0;
+		FINGER1STATS.dataset[i] = 0;
+		FINGER2STATS.dataset[i] = 0;
+		FINGER3STATS.dataset[i] = 0;
+		FINGER4STATS.dataset[i] = 0;
+		FINGER5STATS.dataset[i] = 0;
 	}
 	int statsStructSize = 1;
 
@@ -304,11 +304,11 @@ int main(int argc, char* argv[]){
 		FINGER4.dataset[counter] = VALUE4;
 		FINGER5.dataset[counter] = VALUE5;
 
-		// STATS::STATISTICS(*FINGER1, statsStructSize);
-		// STATS::STATISTICS(*FINGER2, statsStructSize);
-		// STATS::STATISTICS(*FINGER3, statsStructSize);
-		STATS::STATISTICS(*FINGER4, statsStructSize);
-		STATS::STATISTICS(*FINGER5, statsStructSize);
+		// STATS::STATISTICS(FINGER1, statsStructSize);
+		// STATS::STATISTICS(FINGER2, statsStructSize);
+		// STATS::STATISTICS(FINGER3, statsStructSize);
+		STATS::STATISTICS(FINGER4, statsStructSize);
+		STATS::STATISTICS(FINGER5, statsStructSize);
 
 		cout << "| FINGER 1 |\t| FINGER 2 |\t| FINGER 3 |\t| FINGER 4 |\t| FINGER 5 |";
 		cout << "| " << VALUE1 << " |\t\t| " << VALUE2 << " |\t\t| " << VALUE3 << " |\t\t| " << VALUE4 << " |\t\t| " << VALUE5 << " |";
