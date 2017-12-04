@@ -258,7 +258,7 @@ int main(int argc, char* argv[]){
         Pinky:finger[4]: 18
     */
     hand.finger[0].GPIOPIN = 1;
-    hand.finger[1].GPIOPIN = 2;
+    hand.finger[1].GPIOPIN = 3;
     hand.finger[2].GPIOPIN = 11;
     hand.finger[3].GPIOPIN = 19;
 	hand.finger[4].GPIOPIN = 18;
@@ -300,8 +300,8 @@ int main(int argc, char* argv[]){
 
 		long VALUE1 = 0;//RCTimer(setup, hand.finger[0].GPIOPIN);
 		//usleep(1000*100);
-		long VALUE2 = 0;//RCTimer(setup, hand.finger[1].GPIOPIN);
-		//usleep(1000*100);
+		long VALUE2 = RCTimer(hand, setup, hand.finger[1].GPIOPIN);
+		usleep(1000*100);
 		long VALUE3 = RCTimer(hand, setup, hand.finger[2].GPIOPIN);
 		usleep(1000*100);
 		long VALUE4 = RCTimer(hand, setup, hand.finger[3].GPIOPIN);
@@ -310,14 +310,14 @@ int main(int argc, char* argv[]){
 		usleep(1000*100);
 
 		// FINGER1STATS.dataset[counter] = VALUE1;
-		// FINGER2STATS.dataset[counter] = VALUE2;
-		// FINGER3STATS.dataset[counter] = VALUE3;
+		FINGER2STATS.dataset[counter] = VALUE2;
+		FINGER3STATS.dataset[counter] = VALUE3;
 		FINGER4STATS.dataset[counter] = VALUE4;
 		FINGER5STATS.dataset[counter] = VALUE5;
 
 		// STATS::STATISTICS(FINGER1STATS, statsStructSize);
-		// STATS::STATISTICS(FINGER2STATS, statsStructSize);
-		// STATS::STATISTICS(FINGER3STATS, statsStructSize);
+		/STATS::STATISTICS(FINGER2STATS, statsStructSize);
+		STATS::STATISTICS(FINGER3STATS, statsStructSize);
 		STATS::STATISTICS(FINGER4STATS, statsStructSize);
 		STATS::STATISTICS(FINGER5STATS, statsStructSize);
 
