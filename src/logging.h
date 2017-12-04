@@ -12,7 +12,7 @@ using namespace std;
 
 const char* filename = "Logging.stat";
 
-extern enum VERBOSITY {1, 2, 3, 3, 4, 5};
+extern int VERBOSITY;
 
 /*
 
@@ -27,8 +27,8 @@ The following is the expected enum declaration for VERBOSITY
 Small LED indicators are given as to what is "going on" in the logging function. This acts as a small GUI (or equivalent):
 
 - Constant light no blinking: Logging in process. No errors logged.
-- Blinking rapidly: Logging in process. Error logged with verbosity 3-5
-- Slow blinking: Logging in process. Error logged with verbosity 1-2
+- Blinking rapidly: Logging in process. Error logged with VERBOSITY 3-5
+- Slow blinking: Logging in process. Error logged with VERBOSITY 1-2
 - OFF: logging is not occuring at the moment (acts as a mini debugger since you will know when the logger function should actually work).
 
 */
@@ -53,52 +53,52 @@ class LOG {
 
 public:
 
-    static bool HLOG(HAND& object, int status, VERBOSITY verbo=1, const char[] functionName, int lineNumber=0);
-    static bool SLOG(Stats& object, int status, VERBOSITY verbo=1, const char[] functionName, int lineNumber=0);
+    static bool HLOG(HAND& object, int status, VERBOSITY, const char[] functionName, int lineNumber=0);
+    static bool SLOG(Stats& object, int status, VERBOSITY, const char[] functionName, int lineNumber=0);
 
 private:
 
-    static bool HANDLOG(HAND& object, VERBOSITY verbo=1, const char[] functionName, int lineNumber=0);
-    static bool STATSLOG(Stats& object, VERBOSITY verbo=1, const char[] functionName, int lineNumber=0);
-    static bool HERROR(HAND& object, VERBOSITY verbo=1, const char[] functionName, int lineNumber=0);
-    static bool SERROR(Stats& object, VERBOSITY verbo=1, const char[] functionName, int lineNumber=0);
+    static bool HANDLOG(HAND& object, VERBOSITY, const char[] functionName, int lineNumber=0);
+    static bool STATSLOG(Stats& object, VERBOSITY, const char[] functionName, int lineNumber=0);
+    static bool HERROR(HAND& object, VERBOSITY, const char[] functionName, int lineNumber=0);
+    static bool SERROR(Stats& object, VERBOSITY, const char[] functionName, int lineNumber=0);
 
 };
 
-bool LOG::HLOG(HAND& object, int status=0, VERBOSITY verbo=1, const char[] functionName, int lineNumber=0){
+bool LOG::HLOG(HAND& object, int status=0, VERBOSITY, const char[] functionName, int lineNumber=0){
 
     if (status!=0){
 
-        LOG::HERROR(object, verbo, functionName, lineNumber);
+        LOG::HERROR(object, VERBOSITY, functionName, lineNumber);
         return true;
 
     }
     else{
 
-        LOG::HANDLOG(object, verbo,functionName, lineNumber);
+        LOG::HANDLOG(object, VERBOSITY,functionName, lineNumber);
         return true;
 
     }
 }
 
-bool LOG::SLOG(Stats& object, int status=0, VERBOSITY verbo=1, const char[] functionName, int lineNumber=0){
+bool LOG::SLOG(Stats& object, int status=0, VERBOSITY, const char[] functionName, int lineNumber=0){
 
     if (status!=0){
 
-        LOG::SERROR(object, verbo,functionName, lineNumber);
+        LOG::SERROR(object, VERBOSITY,functionName, lineNumber);
         return true;
 
     }
     else{
 
-        LOG::STATSLOG(object, verbo, functionName, lineNumber);
+        LOG::STATSLOG(object, VERBOSITY, functionName, lineNumber);
         return true;
 
     }
 }
 
 
-bool LOG::HANDLOG(HAND& hand, VERBOSITY verbo, const char[] functionName, int lineNumber=0){
+bool LOG::HANDLOG(HAND& hand, VERBOSITY, const char[] functionName, int lineNumber=0){
 
     ofstream outfile;
     outfile.open(filename,ios_base::app);
@@ -106,7 +106,7 @@ bool LOG::HANDLOG(HAND& hand, VERBOSITY verbo, const char[] functionName, int li
     if(!outfile.is_open())
     return LOG::HERROR(hand,functionName, lineNumber);
 
-	switch (verbosity){
+	switch (VERBOSITY){
 		case 1:
 			break;
 		case 2:
@@ -204,7 +204,7 @@ bool LOG::HANDLOG(HAND& hand, VERBOSITY verbo, const char[] functionName, int li
     return true;
 }
 
-bool LOG::STATSLOG(Stats& stats, VERBOSITY verbo, const char[] functionName, int lineNumber=0){
+bool LOG::STATSLOG(Stats& stats, VERBOSITY, const char[] functionName, int lineNumber=0){
 
     int s=0;
     ofstream outfile;
@@ -219,7 +219,7 @@ bool LOG::STATSLOG(Stats& stats, VERBOSITY verbo, const char[] functionName, int
     }
 
 	
-	switch (verbosity){
+	switch (VERBOSITY){
 		case 1:
 			break;
 		case 2:
@@ -258,7 +258,7 @@ bool LOG::STATSLOG(Stats& stats, VERBOSITY verbo, const char[] functionName, int
 
 }
 
-bool LOG::HERROR(HAND& hand, VERBOSITY verbo=1, const char[] functionName, int lineNumber=0){
+bool LOG::HERROR(HAND& hand, VERBOSITY, const char[] functionName, int lineNumber=0){
 
     int s=0;
     ofstream outfile;
@@ -269,7 +269,7 @@ bool LOG::HERROR(HAND& hand, VERBOSITY verbo=1, const char[] functionName, int l
         return false;   
     }
 
-	swtich (verbo){
+	swtich (VERBOSITY){
 		case 1:
 			return true;
 			break;
@@ -308,7 +308,7 @@ bool LOG::HERROR(HAND& hand, VERBOSITY verbo=1, const char[] functionName, int l
 }
 
 
-bool LOG::SERROR(Stats& stats, VERBOSITY verbo=1, const char[] functionName, int lineNumber=0){
+bool LOG::SERROR(Stats& stats, VERBOSITY, const char[] functionName, int lineNumber=0){
 
     int s=0;
     ofstream outfile;
@@ -320,7 +320,7 @@ bool LOG::SERROR(Stats& stats, VERBOSITY verbo=1, const char[] functionName, int
     }
 
 
-	swtich (verbo){
+	swtich (VERBOSITY){
 		case 1:
 			return true;
 			break;
