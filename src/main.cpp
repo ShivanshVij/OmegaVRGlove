@@ -316,7 +316,7 @@ int main(int argc, char* argv[]){
 		FINGER5STATS.dataset[counter] = VALUE5;
 
 		// STATS::STATISTICS(FINGER1STATS, statsStructSize);
-		/STATS::STATISTICS(FINGER2STATS, statsStructSize);
+		STATS::STATISTICS(FINGER2STATS, statsStructSize);
 		STATS::STATISTICS(FINGER3STATS, statsStructSize);
 		STATS::STATISTICS(FINGER4STATS, statsStructSize);
 		STATS::STATISTICS(FINGER5STATS, statsStructSize);
