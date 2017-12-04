@@ -283,12 +283,16 @@ int main(int argc, char* argv[]){
 
 		if(counter == 1000){
 			LOG::HLOG(hand, "main", 0, 1, 279);
+			LOG::SLOG(FINGER4STATS, "STATS::STATISTICS from main", 0, 1, 286);
+			LOG::SLOG(FINGER5STATS, "STATS::STATISTICS from main", 0, 1, 287);
 			// break;
 			counter=0; // reset for sliding window stats
 		}
 
 		if(counter == 250 || counter == 500 || counter == 750){
 			LOG::HLOG(hand, "main", 0, 1, 285);
+			LOG::SLOG(FINGER4STATS, "STATS::STATISTICS from main", 0, 1, 294);
+			LOG::SLOG(FINGER5STATS, "STATS::STATISTICS from main", 0, 1, 295);
 		}
 
 		
@@ -314,7 +318,6 @@ int main(int argc, char* argv[]){
 		// STATS::STATISTICS(FINGER2STATS, statsStructSize);
 		// STATS::STATISTICS(FINGER3STATS, statsStructSize);
 		STATS::STATISTICS(FINGER4STATS, statsStructSize);
-		LOG::SLOG(FINGER4STATS, "STATS::STATISTICS from main", 0, 2, 317);
 		STATS::STATISTICS(FINGER5STATS, statsStructSize);
 
 		cout << "| FINGER 1 |\t| FINGER 2 |\t| FINGER 3 |\t| FINGER 4 |\t| FINGER 5 |" << endl;
