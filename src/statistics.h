@@ -12,6 +12,7 @@
 #include <cmath>
 #include <limits>
 
+
 using namespace std;
 
 struct Stats{
@@ -169,8 +170,19 @@ bool STATS::STATISTICS(Stats& stats, const int size){
     stats.sampleStdDev = smplStdDev(stats.dataset, size);
 
     //LOG::SLOG(stats, "STATS::STATISTICS");
+    ofstream statsfile;
+    statsfile.open("STATISTICS.txt");
 
-    return false;
+    statsfile << "Minimum: " << stats.minimum << endl;
+	statsfile << "Average: " << stats.average << endl;
+	statsfile << "Maximum: " << stats.maximum << endl;
+	statsfile << "Population Standard Deviation: " << stats.popStdDev << endl;
+	statsfile << "Sample Standard Deviation: " << stats.smplStdDev << endl;
+
+    statsfile.close();
+
+
+    return true;
 }
 
 #endif

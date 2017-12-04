@@ -310,8 +310,8 @@ int main(int argc, char* argv[]){
 		STATS::STATISTICS(FINGER4STATS, statsStructSize);
 		STATS::STATISTICS(FINGER5STATS, statsStructSize);
 
-		cout << "| FINGER 1 |\t| FINGER 2 |\t| FINGER 3 |\t| FINGER 4 |\t| FINGER 5 |";
-		cout << "| " << VALUE1 << " |\t\t| " << VALUE2 << " |\t\t| " << VALUE3 << " |\t\t| " << VALUE4 << " |\t\t| " << VALUE5 << " |";
+		cout << "| FINGER 1 |\t| FINGER 2 |\t| FINGER 3 |\t| FINGER 4 |\t| FINGER 5 |" << endl;
+		cout << "| " << VALUE1 << " |\t\t| " << VALUE2 << " |\t\t| " << VALUE3 << " |\t\t| " << VALUE4 << " |\t\t| " << VALUE5 << " |" << endl;
 		
 		//LOG::HLOG(hand);
 		usleep(1000*250);
