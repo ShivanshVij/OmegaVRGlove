@@ -177,7 +177,7 @@ bool STATS::STATISTICS(Stats& stats, const int size){
 	statsfile << "Average: " << stats.average << endl;
 	statsfile << "Maximum: " << stats.maximum << endl;
 	statsfile << "Population Standard Deviation: " << stats.popStdDev << endl;
-	statsfile << "Sample Standard Deviation: " << stats.smplStdDev << endl;
+	statsfile << "Sample Standard Deviation: " << stats.sampleStdDev << endl;
 
     statsfile.close();
 
