@@ -20,7 +20,7 @@ struct Stats{
         long maximum;
         float popStdDev;
         float sampleStdDev;
-        long* dataset[1000] = {0};
+        long dataset[1000];
 };
 
 class STATS{

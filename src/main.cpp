@@ -236,6 +236,13 @@ int main(int argc, char* argv[]){
 	Stats FINGER3 = new Stats;
 	Stats FINGER4 = new Stats;
 	Stats FINGER5 = new Stats;
+	for(int i = 0; i < 1000; i++){
+		FINGER1.dataset[i] = 0;
+		FINGER2.dataset[i] = 0;
+		FINGER3.dataset[i] = 0;
+		FINGER4.dataset[i] = 0;
+		FINGER5.dataset[i] = 0;
+	}
 	int statsStructSize = 1;
 
 	//LOG::HLOG(hand);
