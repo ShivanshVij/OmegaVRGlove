@@ -152,7 +152,7 @@ int checkOldProcess(gpioSetup *setup){
 }
 
 /* -------------------------------------------------------------OUR WORK START---------------------------------------------------------------------- */
-long RCTimer(gpioSetup* setup, int PIN){
+long RCTimer(HAND& hand, gpioSetup* setup, int PIN){
 		long result = 0;
 		int status = 0;
 		//Set pin to output
@@ -299,9 +299,9 @@ int main(int argc, char* argv[]){
 		//usleep(1000*50);
 		long VALUE3 = 0;//RCTimer(setup, hand.finger[2].GPIOPIN);
 		//usleep(1000*50);
-		long VALUE4 = RCTimer(setup, hand.finger[3].GPIOPIN);
+		long VALUE4 = RCTimer(hand, setup, hand.finger[3].GPIOPIN);
 		usleep(1000*80);
-		long VALUE5 = RCTimer(setup, hand.finger[4].GPIOPIN);
+		long VALUE5 = RCTimer(hand, setup, hand.finger[4].GPIOPIN);
 		usleep(1000*80);
 
 		// FINGER1STATS.dataset[counter] = VALUE1;
