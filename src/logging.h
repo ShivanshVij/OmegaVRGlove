@@ -10,7 +10,7 @@
 
 using namespace std;
 
-const char* filename = "Logging.stat";
+const char* filename = "Logging.txt";
 
 extern int VERBOSITY;
 
