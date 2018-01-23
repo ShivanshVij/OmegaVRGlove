@@ -1,10 +1,6 @@
-# fast-gpio
-Edited version of fast-gpio, provides access to RCTiming via c++ code. Writes directly to hw registers, all other functionality has been removed. 
+# OmegaVRGlove
+Includes a heavily modified version of Onion IoT's fast-gpio library, provides access to RCTiming via c++ code. Writes directly to hw registers, all other functionality has been removed. 
 
-# usage
+Added functionality to interface with Omega IoT Computer's shift registers to measure and record analog input from bend sensors through digital GPIO pins. 
 
-    fast-gpio <gpio> <gpio>
-
-Examples:
-
-    fast-gpio 19 19 //Lets you read from pin 19
+Implemented statistics logging functionality to keep track of usage and to help debug errors at a hardware level. 
